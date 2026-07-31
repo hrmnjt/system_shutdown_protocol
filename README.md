@@ -1,6 +1,17 @@
 # System Shutdown Protocol
 
-An offline, family-facing handbook authored in Markdown and built with [Hugo](https://gohugo.io/).
+A family continuity handbook authored in Markdown and published as offline HTML, print, and an eventually authenticated website using [Hugo](https://gohugo.io/).
+
+## Purpose and audience
+
+The protocol is intended for the owner’s nontechnical family to follow after the owner dies. It combines:
+
+1. knowledge the family may not currently have about contacts, systems, assets, responsibilities, routines, and wishes; and
+2. a visible backlog of preparations the owner still intends to complete.
+
+The generated experience must remain calm and usable for people who may be grieving or under stress. The repository is currently a structured draft: theme and distribution foundations exist, while personal content, jurisdiction-specific guidance, and final content organization remain unfinished.
+
+Coding agents should read [`AGENTS.md`](AGENTS.md) before changing the project. It records product intent, invariants, security boundaries, unresolved decisions, and completion checks.
 
 ## Build
 
