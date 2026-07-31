@@ -1,6 +1,6 @@
 .PHONY: build serve clean check
 
-build:
+build: clean
 	hugo --minify
 
 serve:
