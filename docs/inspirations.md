@@ -34,6 +34,8 @@ Provider features and procedures change. The protocol should describe the intend
   Plain-language guidance for readers who may be stressed, distracted, or unfamiliar with the subject.
 - [W3C — How to Meet WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/)  
   Accessibility reference for semantics, keyboard operation, contrast, focus, headings, and reflow.
+- [Gruvbox](https://github.com/morhetz/gruvbox)
+  The warm light and dark palettes used by the handbook. Semantic warning and placeholder colours are selected from the same palette while retaining readable contrast.
 
 ## Principles adopted here
 

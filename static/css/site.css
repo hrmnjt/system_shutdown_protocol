@@ -1,15 +1,21 @@
 :root {
   color-scheme: light dark;
-  --bg: #f7f5f0;
-  --surface: #fffdf8;
-  --text: #232522;
-  --muted: #62665f;
-  --border: #d8d5cc;
-  --accent: #245b45;
-  --accent-soft: #e4efe8;
-  --important: #8b3d2e;
-  --important-soft: #f8e9e5;
-  --focus: #2563eb;
+  /* Gruvbox Light: warm paper, restrained contrast, and familiar accents. */
+  --bg: #fbf1c7;
+  --surface: #f9f5d7;
+  --text: #3c3836;
+  --muted: #665c54;
+  --border: #bdae93;
+  --accent: #076678;
+  --accent-soft: #ebdbb2;
+  --important: #9d0006;
+  --important-soft: #ebdbb2;
+  --warning: #af3a03;
+  --warning-soft: #f2e5bc;
+  --warning-on: #fbf1c7;
+  --placeholder: #fabd2f;
+  --placeholder-text: #282828;
+  --focus: #076678;
   --max-width: 72rem;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 18px;
@@ -92,9 +98,9 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
 }
 
 .draft-banner {
-  border-bottom: 1px solid #b45309;
-  background: #ffedd5;
-  color: #431407;
+  border-bottom: 1px solid var(--warning);
+  background: var(--warning-soft);
+  color: var(--text);
 }
 
 .draft-banner > div {
@@ -103,7 +109,7 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
   padding: 0.65rem 1.5rem;
 }
 
-.draft-banner a { color: #7c2d12; font-weight: 750; }
+.draft-banner a { color: var(--warning); font-weight: 750; }
 
 .page-shell {
   display: grid;
@@ -163,8 +169,8 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
   height: 1.1rem;
   place-items: center;
   border-radius: 50%;
-  background: #b45309;
-  color: white;
+  background: var(--warning);
+  color: var(--warning-on);
   font-size: 0.72rem;
   font-weight: 900;
   line-height: 1;
@@ -179,7 +185,7 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
   color: var(--muted);
 }
 .review-date span { color: var(--text); }
-.not-reviewed { color: var(--important) !important; font-weight: 800; }
+.not-reviewed { color: var(--warning) !important; font-weight: 800; }
 .review-date a { width: fit-content; font-size: 0.8rem; }
 
 .content { min-width: 0; max-width: 48rem; }
@@ -228,10 +234,10 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
   gap: 0.8rem;
   margin: 0 0 1.5rem;
   padding: 0.85rem 1rem;
-  border: 2px solid #b45309;
+  border: 2px solid var(--warning);
   border-radius: 0.35rem;
-  background: #fffbeb;
-  color: #451a03;
+  background: var(--warning-soft);
+  color: var(--text);
 }
 .placeholder-alert-icon {
   display: inline-grid;
@@ -240,8 +246,8 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
   height: 1.6rem;
   place-items: center;
   border-radius: 50%;
-  background: #b45309;
-  color: white;
+  background: var(--warning);
+  color: var(--warning-on);
   font-weight: 900;
   line-height: 1;
 }
@@ -259,10 +265,10 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
 
 mark.placeholder {
   padding: 0.05em 0.2em;
-  border: 1px solid #b45309;
+  border: 1px solid var(--warning);
   border-radius: 0.2em;
-  background: #fde047;
-  color: #1c1917;
+  background: var(--placeholder);
+  color: var(--placeholder-text);
   font-weight: 700;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
@@ -332,7 +338,7 @@ mark.placeholder {
   text-decoration: none;
 }
 .card:hover { border-color: var(--accent); }
-.card-unfinished { border-left: 0.3rem solid #b45309; }
+.card-unfinished { border-left: 0.3rem solid var(--warning); }
 .card-number { color: var(--accent); font-size: 0.75rem; font-weight: 800; }
 .card-description { color: var(--muted); font-size: 0.9rem; }
 .card-status {
@@ -340,8 +346,8 @@ mark.placeholder {
   margin-top: auto;
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
-  background: #ffedd5;
-  color: #7c2d12;
+  background: var(--warning-soft);
+  color: var(--warning);
   font-size: 0.72rem;
   font-weight: 800;
 }
@@ -430,15 +436,22 @@ mark.placeholder {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #171a18;
-    --surface: #202421;
-    --text: #edf0eb;
-    --muted: #b6bcb4;
-    --border: #414740;
-    --accent: #91d5b0;
-    --accent-soft: #253c30;
-    --important: #e59684;
-    --important-soft: #422b27;
+    /* Gruvbox Dark. */
+    --bg: #282828;
+    --surface: #32302f;
+    --text: #ebdbb2;
+    --muted: #bdae93;
+    --border: #665c54;
+    --accent: #8ec07c;
+    --accent-soft: #3c3836;
+    --important: #fb4934;
+    --important-soft: #3c3836;
+    --warning: #fe8019;
+    --warning-soft: #3c3836;
+    --warning-on: #282828;
+    --placeholder: #fabd2f;
+    --placeholder-text: #282828;
+    --focus: #83a598;
   }
 }
 

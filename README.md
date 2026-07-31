@@ -26,6 +26,8 @@ make serve
 
 The development server is only for editing—the final `dist/` folder remains fully offline.
 
+The interface uses the Gruvbox Light palette by default and automatically switches to Gruvbox Dark when the operating system requests dark mode. Print output remains high-contrast and ink-conscious rather than reproducing the screen background colours.
+
 ## Edit content
 
 Family-facing pages live in [`content/`](content/). Page order and displayed section numbers are controlled by the sequential `weight` field in each file’s front matter.
