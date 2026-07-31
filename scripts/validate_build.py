@@ -28,7 +28,7 @@ class Document(HTMLParser):
         self.has_viewport = False
         self.has_robots_policy = False
         self.placeholder_count = 0
-        self.placeholder_alert_count = 0
+        self.placeholder_report_count = 0
         self.reported_placeholder_counts: list[int] = []
         self.source_pages: list[str] = []
         self.heading_levels: list[int] = []
@@ -75,10 +75,9 @@ class Document(HTMLParser):
         classes = set(attrs.get("class", "").split())
         if tag == "mark" and "placeholder" in classes:
             self.placeholder_count += 1
-        if "placeholder-alert" in classes:
-            self.placeholder_alert_count += 1
-            if attrs.get("data-placeholder-count", "").isdigit():
-                self.reported_placeholder_counts.append(int(attrs["data-placeholder-count"]))
+        if attrs.get("data-placeholder-count", "").isdigit():
+            self.placeholder_report_count += 1
+            self.reported_placeholder_counts.append(int(attrs["data-placeholder-count"]))
         if tag == "table":
             self.table_count += 1
         if "table-scroll" in classes:
@@ -137,15 +136,11 @@ class Document(HTMLParser):
         duplicates = sorted({value for value in self.ids if self.ids.count(value) > 1})
         if duplicates:
             self.errors.append(f"duplicate IDs: {', '.join(duplicates)}")
-        if self.path.name == "print.html":
-            if sum(self.reported_placeholder_counts) != self.placeholder_count:
-                self.errors.append("printed placeholder counts do not match highlighted placeholders")
-        else:
-            expected_alerts = 1 if self.placeholder_count else 0
-            if self.placeholder_alert_count != expected_alerts:
-                self.errors.append("page placeholder alert does not match highlighted placeholders")
-            if sum(self.reported_placeholder_counts) != self.placeholder_count:
-                self.errors.append("reported placeholder count does not match highlighted placeholders")
+        expected_reports = 1 if self.placeholder_count else 0
+        if self.placeholder_report_count != expected_reports:
+            self.errors.append("placeholder completion status does not match highlighted placeholders")
+        if sum(self.reported_placeholder_counts) != self.placeholder_count:
+            self.errors.append("reported placeholder count does not match highlighted placeholders")
         if self.table_count != self.table_scroll_count:
             self.errors.append("each table must have a keyboard-scrollable wrapper")
         if any(re.match(r"^\d+\.\s", text) for text in self.ordered_item_texts):
@@ -249,7 +244,7 @@ def main() -> int:
     pages = len(documents)
     placeholders = sum(document.placeholder_count for document in documents.values() if document.path.name != "print.html")
     print(f"Validated {pages} offline pages, local links, document structure, and print CSS.")
-    print(f"Draft visibility check: {placeholders} highlighted placeholders remain in family-facing pages.")
+    print(f"Completion visibility check: {placeholders} highlighted placeholders remain in family-facing pages.")
     return 0
 
 

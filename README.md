@@ -71,7 +71,7 @@ Write missing information in square brackets with a leading letter, for example:
 - Executor: **[name and phone number]**
 ```
 
-The theme automatically highlights these placeholders, counts them on each page, marks unfinished navigation cards, and displays a site-wide draft warning. Task-list boxes such as `- [ ]` are not treated as placeholders; they render as static, print-friendly boxes and browser copies do not save checklist progress.
+The theme automatically highlights these placeholders and shows a quiet completion count in each affected page header and home-page card. The printable handbook includes one cover summary and identifies affected sections in its contents instead of repeating warnings throughout. Task-list boxes such as `- [ ]` are not treated as placeholders; they render as static, print-friendly boxes and browser copies do not save checklist progress.
 
 Keep planned and incomplete work in [`content/todo.md`](content/todo.md). Remove an item when it is complete; if it is only partly complete, explain what exists and what remains so the note is still useful without you.
 

@@ -1,17 +1,6 @@
-{{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
-{{- $openTaskPattern := `(?m)^\s*[-*+] \[ \]` -}}
 {{- $navPages := where site.RegularPages "Params.nav" "ne" false -}}
 {{- $guidePages := where $navPages "Params.category" "guide" -}}
 {{- $maintenancePages := where $navPages "Params.category" "maintenance" -}}
-{{- $unfinishedCount := 0 -}}
-{{- if gt (len (findRE $placeholderPattern site.Home.Content)) 0 -}}
-  {{- $unfinishedCount = add $unfinishedCount 1 -}}
-{{- end -}}
-{{- range $navPages -}}
-  {{- if gt (len (findRE $placeholderPattern .Content)) 0 -}}
-    {{- $unfinishedCount = add $unfinishedCount 1 -}}
-  {{- end -}}
-{{- end -}}
 <!doctype html>
 <html lang="{{ site.Language.Lang | default "en" }}">
 <head>
@@ -47,16 +36,6 @@
     </div>
   </header>
 
-  {{ if gt $unfinishedCount 0 }}
-    <aside class="draft-banner" aria-label="Draft warning">
-      <div>
-        <strong>Unfinished protocol:</strong>
-        {{ $unfinishedCount }} {{ if eq $unfinishedCount 1 }}section contains{{ else }}sections contain{{ end }} highlighted placeholders.
-        {{ with site.GetPage "/todo" }}<a href="{{ .RelPermalink }}">See TODO and known gaps</a>.{{ end }}
-      </div>
-    </aside>
-  {{ end }}
-
   <div class="page-shell">
     <nav class="site-nav" aria-label="Protocol sections">
       <details>
@@ -66,11 +45,9 @@
           <ul class="nav-list">
             <li><a href="{{ "index.html" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>Start here</a></li>
             {{ range $guidePages.ByWeight }}
-              {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
               <li>
                 <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>
                   <span>{{ .Weight }}. {{ .LinkTitle }}</span>
-                  {{ if $hasPlaceholders }}<span class="attention-dot" title="Contains unfinished placeholders" aria-hidden="true">!</span><span class="visually-hidden">Contains unfinished placeholders</span>{{ end }}
                 </a>
               </li>
             {{ end }}
@@ -80,13 +57,9 @@
           <p class="nav-heading">Keep it current</p>
           <ul class="nav-list">
             {{ range $maintenancePages.ByWeight }}
-              {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
-              {{ $hasOpenTasks := gt (len (findRE $openTaskPattern .RawContent)) 0 }}
-              {{ $needsWork := or $hasPlaceholders $hasOpenTasks }}
               <li>
                 <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>
                   <span>{{ .Weight }}. {{ .LinkTitle }}</span>
-                  {{ if $needsWork }}<span class="attention-dot" title="Contains unfinished work" aria-hidden="true">!</span><span class="visually-hidden">Contains unfinished work</span>{{ end }}
                 </a>
               </li>
             {{ end }}

@@ -9,14 +9,13 @@
       <p class="eyebrow">Family guide</p>
       <h1>{{ .Title }}</h1>
       {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+      {{ partial "completion-status.html" . }}
     </header>
 
     <div class="callout callout-important" role="note">
       <strong>If you have opened this after my death:</strong>
       begin with the immediate steps below. You do not need to understand or finish everything today.
     </div>
-
-    {{ partial "placeholder-alert.html" . }}
 
     <div class="prose">
       {{ partial "render-content.html" . }}
@@ -26,12 +25,12 @@
       <h2 id="guide-sections-heading">Family guide</h2>
       <div class="card-grid">
         {{ range $guidePages.ByWeight }}
-          {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
-          <a class="card{{ if $hasPlaceholders }} card-unfinished{{ end }}" href="{{ .RelPermalink }}">
+          {{ $placeholderCount := len (findRE $placeholderPattern .Content) }}
+          <a class="card" href="{{ .RelPermalink }}">
             <span class="card-number">Section {{ .Weight }}</span>
             <strong>{{ .LinkTitle }}</strong>
             {{ with .Description }}<span class="card-description">{{ . }}</span>{{ end }}
-            {{ if $hasPlaceholders }}<span class="card-status">Needs completion</span>{{ end }}
+            {{ if gt $placeholderCount 0 }}<span class="card-status">{{ $placeholderCount }} {{ if eq $placeholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>{{ end }}
           </a>
         {{ end }}
       </div>
@@ -42,17 +41,16 @@
       <p>Known gaps remain visible here so that unfinished plans are not lost.</p>
       <div class="card-grid">
         {{ range $maintenancePages.ByWeight }}
-          {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
-          {{ $hasOpenTasks := gt (len (findRE $openTaskPattern .RawContent)) 0 }}
-          {{ $needsWork := or $hasPlaceholders $hasOpenTasks }}
-          <a class="card{{ if $needsWork }} card-unfinished{{ end }}" href="{{ .RelPermalink }}">
+          {{ $placeholderCount := len (findRE $placeholderPattern .Content) }}
+          {{ $openTaskCount := len (findRE $openTaskPattern .RawContent) }}
+          <a class="card" href="{{ .RelPermalink }}">
             <span class="card-number">Section {{ .Weight }}</span>
             <strong>{{ .LinkTitle }}</strong>
             {{ with .Description }}<span class="card-description">{{ . }}</span>{{ end }}
-            {{ if $hasPlaceholders }}
-              <span class="card-status">Needs completion</span>
-            {{ else if $hasOpenTasks }}
-              <span class="card-status">Open tasks</span>
+            {{ if gt $placeholderCount 0 }}
+              <span class="card-status">{{ $placeholderCount }} {{ if eq $placeholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>
+            {{ else if gt $openTaskCount 0 }}
+              <span class="card-status">{{ $openTaskCount }} open {{ if eq $openTaskCount 1 }}task{{ else }}tasks{{ end }}</span>
             {{ end }}
           </a>
         {{ end }}

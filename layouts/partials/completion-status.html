@@ -1,0 +1,16 @@
+{{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
+{{- $placeholderCount := len (findRE $placeholderPattern .Content) -}}
+{{- $openTaskCount := 0 -}}
+{{- if eq .Params.category "maintenance" -}}
+  {{- $openTaskCount = len (findRE `(?m)^\s*[-*+] \[ \]` .RawContent) -}}
+{{- end -}}
+{{- if or (gt $placeholderCount 0) (gt $openTaskCount 0) }}
+<p class="completion-status" aria-label="Completion status">
+  {{- if gt $placeholderCount 0 }}
+    <span data-placeholder-count="{{ $placeholderCount }}">{{ $placeholderCount }} {{ if eq $placeholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>
+  {{- end }}
+  {{- if gt $openTaskCount 0 }}
+    <span>{{ $openTaskCount }} open {{ if eq $openTaskCount 1 }}task{{ else }}tasks{{ end }}</span>
+  {{- end }}
+</p>
+{{- end -}}

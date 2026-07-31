@@ -63,7 +63,7 @@ See `docs/distribution.md` for the detailed release and security model.
 Missing information is a feature of the current draft, not something to hide cosmetically.
 
 - A placeholder is written in square brackets beginning with a letter, for example `[name and phone number]`.
-- The theme highlights placeholders, counts them per page, marks navigation and cards, and shows a draft warning.
+- The theme highlights placeholders, shows quiet counts in page headers and home-page cards, and summarizes affected sections in the printed contents. Avoid repeating warning banners or callouts for the same unfinished details.
 - Markdown task boxes such as `- [ ]` are not placeholders.
 - `content/todo.md` is family-visible by design. Remove an item only when it is genuinely complete. For partial work, explain what exists and what remains.
 - If changing placeholder rendering, preserve visibility on screen and paper.

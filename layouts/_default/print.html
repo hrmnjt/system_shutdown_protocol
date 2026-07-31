@@ -1,10 +1,14 @@
 {{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
 {{- $pages := where site.RegularPages "Params.nav" "ne" false -}}
 {{- $home := site.Home -}}
+{{- $homePlaceholderCount := len (findRE $placeholderPattern $home.Content) -}}
+{{- $placeholderCount := $homePlaceholderCount -}}
 {{- $unfinishedCount := 0 -}}
-{{- if gt (len (findRE $placeholderPattern $home.Content)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
+{{- if gt $homePlaceholderCount 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
 {{- range $pages -}}
-  {{- if gt (len (findRE $placeholderPattern .Content)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
+  {{- $pagePlaceholderCount := len (findRE $placeholderPattern .Content) -}}
+  {{- $placeholderCount = add $placeholderCount $pagePlaceholderCount -}}
+  {{- if gt $pagePlaceholderCount 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
 {{- end -}}
 <!doctype html>
 <html lang="{{ site.Language.Lang | default "en" }}">
@@ -37,11 +41,10 @@
         <div><dt>Built for printing</dt><dd>{{ now.Format "2 January 2006" }}</dd></div>
         <div><dt>Copy status</dt><dd>Uncontrolled after printing; compare its version and review date with newer copies.</dd></div>
       </dl>
-      {{ if gt $unfinishedCount 0 }}
-        <div class="callout callout-warning placeholder-alert" role="note">
-          <strong>Unfinished protocol:</strong>
-          {{ $unfinishedCount }} sections contain highlighted placeholders. Read the TODO section before relying on incomplete details.
-        </div>
+      {{ if gt $placeholderCount 0 }}
+        <p class="completion-summary" data-placeholder-count="{{ $placeholderCount }}">
+          <strong>Completion note:</strong> Highlighted text marks {{ $placeholderCount }} {{ if eq $placeholderCount 1 }}detail{{ else }}details{{ end }} to complete across {{ $unfinishedCount }} {{ if eq $unfinishedCount 1 }}section{{ else }}sections{{ end }}.
+        </p>
       {{ end }}
       <p class="print-privacy"><strong>Private:</strong> keep this copy with the valuables and documents it references. It does not contain passwords or recovery keys.</p>
     </header>
@@ -49,9 +52,18 @@
     <nav class="print-toc" aria-label="Printed handbook contents">
       <p class="eyebrow">Contents</p>
       <h2>Handbook sections</h2>
-      <p class="print-toc-start"><strong>Start here</strong></p>
+      <p class="print-toc-start">
+        <strong>Start here</strong>
+        {{ if gt $homePlaceholderCount 0 }}<span class="print-toc-status">— {{ $homePlaceholderCount }} {{ if eq $homePlaceholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>{{ end }}
+      </p>
       <ol>
-        {{ range $pages.ByWeight }}<li>{{ .LinkTitle }}</li>{{ end }}
+        {{ range $pages.ByWeight }}
+          {{- $pagePlaceholderCount := len (findRE $placeholderPattern .Content) -}}
+          <li>
+            {{ .LinkTitle }}
+            {{ if gt $pagePlaceholderCount 0 }}<span class="print-toc-status">— {{ $pagePlaceholderCount }} {{ if eq $pagePlaceholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>{{ end }}
+          </li>
+        {{ end }}
       </ol>
       <p>In an emergency, begin with “Start here” and Section 1. The maintenance sections preserve unfinished work and review guidance.</p>
     </nav>
@@ -62,7 +74,6 @@
         <h2>{{ $home.Title }}</h2>
         {{ with $home.Description }}<p class="lead">{{ . }}</p>{{ end }}
       </header>
-      {{ partial "placeholder-alert.html" $home }}
       <div class="prose">{{ partial "render-print-content.html" $home }}</div>
       <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
     </section>
@@ -74,7 +85,6 @@
           <h2>{{ .Title }}</h2>
           {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
         </header>
-        {{ partial "placeholder-alert.html" . }}
         <div class="prose">{{ partial "render-print-content.html" . }}</div>
         <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
       </section>

@@ -1,8 +1,0 @@
-{{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
-{{- $matches := findRE $placeholderPattern .Content -}}
-{{- if gt (len $matches) 0 -}}
-<div class="callout callout-warning placeholder-alert" role="note" data-placeholder-count="{{ len $matches }}">
-  <strong>{{ len $matches }} unfinished {{ if eq (len $matches) 1 }}placeholder{{ else }}placeholders{{ end }} on this page:</strong>
-  Highlighted text still needs to be replaced, verified, or deliberately removed.
-</div>
-{{- end -}}

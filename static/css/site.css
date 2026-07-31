@@ -12,7 +12,6 @@
   --important-soft: #ebdbb2;
   --warning: #af3a03;
   --warning-soft: #f2e5bc;
-  --warning-on: #fbf1c7;
   --placeholder: #fabd2f;
   --placeholder-text: #282828;
   --focus: #076678;
@@ -110,20 +109,6 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
   text-decoration: none;
 }
 
-.draft-banner {
-  border-bottom: 1px solid var(--warning);
-  background: var(--warning-soft);
-  color: var(--text);
-}
-
-.draft-banner > div {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0.65rem 1.5rem;
-}
-
-.draft-banner a { color: var(--warning); font-weight: 750; }
-
 .page-shell {
   display: grid;
   grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
@@ -192,21 +177,6 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
   text-decoration-thickness: 2px;
 }
 
-.attention-dot {
-  display: inline-grid;
-  flex: none;
-  width: 1.1rem;
-  height: 1.1rem;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--warning);
-  color: var(--warning-on);
-  font-size: 0.72rem;
-  font-weight: 900;
-  line-height: 1;
-  text-decoration: none;
-}
-
 .review-date {
   display: grid;
   gap: 0.15rem;
@@ -243,6 +213,20 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
   margin: 1rem 0 0;
   color: var(--muted);
   font-size: 1.2rem;
+}
+
+.completion-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.5rem;
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.completion-status span + span::before {
+  margin-right: 0.5rem;
+  content: "·";
 }
 
 .callout,
@@ -370,18 +354,14 @@ mark.placeholder {
   box-shadow: 0 0.35rem 1rem color-mix(in srgb, var(--text) 10%, transparent);
   transform: translateY(-2px);
 }
-.card-unfinished { border-left: 0.3rem solid var(--warning); }
 .card-number { color: var(--accent); font-size: 0.75rem; font-weight: 800; }
 .card-description { color: var(--muted); font-size: 0.9rem; }
 .card-status {
   width: fit-content;
   margin-top: auto;
-  padding: 0.1rem 0.4rem;
-  border-radius: 999px;
-  background: var(--warning-soft);
-  color: var(--warning);
+  color: var(--muted);
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 750;
 }
 
 .maintenance-section { margin-top: 3rem; }
@@ -457,12 +437,14 @@ mark.placeholder {
 .print-metadata div { margin-top: 0; }
 .print-metadata dt { color: var(--muted); font-size: 0.8rem; font-weight: 750; text-transform: uppercase; }
 .print-metadata dd { margin: 0.1rem 0 0; }
+.completion-summary { margin-top: 2rem; color: var(--muted); }
 .print-privacy { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); }
 .print-toc { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); }
 .print-toc h2 { margin-top: 0; font-size: 2.4rem; }
 .print-toc-start { margin-bottom: 0.35rem; }
 .print-toc ol { columns: 2; gap: 3rem; margin-top: 0; padding-left: 1.5rem; }
 .print-toc li { margin: 0.4rem 0; break-inside: avoid; }
+.print-toc-status { color: var(--muted); font-size: 0.82em; }
 .print-toc > p:last-child { max-width: 60ch; color: var(--muted); }
 .print-section { padding-top: 3rem; border-top: 1px solid var(--border); }
 .print-section + .print-section { margin-top: 4rem; }
@@ -501,7 +483,6 @@ mark.placeholder {
   .header-inner { flex-wrap: wrap; gap: 0.75rem; padding: 0.85rem 1rem; }
   .header-actions { display: none; }
   .footer-print-link { display: block; }
-  .draft-banner > div { padding: 0.65rem 1rem; }
   .page-header h1 { font-size: clamp(2rem, 12vw, 2.8rem); }
   .print-toolbar { align-items: stretch; flex-direction: column; }
   .print-toolbar button { min-height: 2.75rem; }
@@ -527,7 +508,6 @@ mark.placeholder {
     --important-soft: #3c3836;
     --warning: #fe8019;
     --warning-soft: #3c3836;
-    --warning-on: #282828;
     --placeholder: #fabd2f;
     --placeholder-text: #282828;
     --focus: #83a598;
@@ -535,7 +515,6 @@ mark.placeholder {
 }
 
 @media (forced-colors: active) {
-  .attention-dot { border: 1px solid CanvasText; }
   .callout, .prose blockquote { border-left-color: CanvasText; }
   mark.placeholder { border: 2px solid CanvasText; }
 }
@@ -545,7 +524,7 @@ mark.placeholder {
 @media print {
   :root { color-scheme: light; font-size: 10.5pt; }
   body, .print-handbook { background: white; color: black; }
-  .skip-link, .site-header, .draft-banner, .site-nav, .page-navigation, .site-footer, .print-toolbar, .checklist-note, .table-hint { display: none; }
+  .skip-link, .site-header, .site-nav, .page-navigation, .site-footer, .print-toolbar, .checklist-note, .completion-status, .table-hint { display: none; }
   .page-shell { display: block; max-width: none; padding: 0; }
   .content, .prose { max-width: none; }
   a { color: black; text-decoration: none; }
