@@ -7,12 +7,14 @@
     </header>
 
     {{ partial "placeholder-alert.html" . }}
-    {{- $openTasks := findRE `(?m)^- \[ \]` .RawContent -}}
+    {{- $openTasks := findRE `(?m)^\s*[-*+] \[ \]` .RawContent -}}
     {{ if and (eq .Params.category "maintenance") (gt (len $openTasks) 0) }}
-      <div class="task-summary" role="note">
-        <strong>{{ len $openTasks }} open TODO {{ if eq (len $openTasks) 1 }}item{{ else }}items{{ end }}</strong>
-        <span>These remain intentionally visible until they are completed or removed.</span>
+      <div class="callout task-summary" role="note">
+        <strong>{{ len $openTasks }} open TODO {{ if eq (len $openTasks) 1 }}item{{ else }}items{{ end }}:</strong>
+        These remain intentionally visible until they are completed or removed.
       </div>
+    {{ else if gt (len $openTasks) 0 }}
+      <p class="checklist-note"><strong>Checklist:</strong> use these boxes on paper; progress is not saved in this copy.</p>
     {{ end }}
 
     <div class="prose">

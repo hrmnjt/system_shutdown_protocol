@@ -1,13 +1,13 @@
-{{- $placeholderPattern := `\[[A-Za-z][^\[\]]*\]` -}}
+{{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
 {{- $pages := where site.RegularPages "Params.nav" "ne" false -}}
 {{- $home := site.Home -}}
 {{- $unfinishedCount := 0 -}}
-{{- if gt (len (findRE $placeholderPattern $home.RawContent)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
+{{- if gt (len (findRE $placeholderPattern $home.Content)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
 {{- range $pages -}}
-  {{- if gt (len (findRE $placeholderPattern .RawContent)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
+  {{- if gt (len (findRE $placeholderPattern .Content)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
 {{- end -}}
 <!doctype html>
-<html lang="{{ site.Language.LanguageCode | default "en" }}">
+<html lang="{{ site.Language.Lang | default "en" }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,12 +38,9 @@
         <div><dt>Copy status</dt><dd>Uncontrolled after printing; compare its version and review date with newer copies.</dd></div>
       </dl>
       {{ if gt $unfinishedCount 0 }}
-        <div class="placeholder-alert" role="note">
-          <span class="placeholder-alert-icon" aria-hidden="true">!</span>
-          <div>
-            <strong>Unfinished protocol</strong>
-            <span>{{ $unfinishedCount }} sections contain highlighted placeholders. Read the TODO section before relying on incomplete details.</span>
-          </div>
+        <div class="callout callout-warning placeholder-alert" role="note">
+          <strong>Unfinished protocol:</strong>
+          {{ $unfinishedCount }} sections contain highlighted placeholders. Read the TODO section before relying on incomplete details.
         </div>
       {{ end }}
       <p class="print-privacy"><strong>Private:</strong> keep this copy with the valuables and documents it references. It does not contain passwords or recovery keys.</p>
@@ -52,9 +49,9 @@
     <nav class="print-toc" aria-label="Printed handbook contents">
       <p class="eyebrow">Contents</p>
       <h2>Handbook sections</h2>
+      <p class="print-toc-start"><strong>Start here</strong></p>
       <ol>
-        <li>Start here</li>
-        {{ range $pages.ByWeight }}<li><span>{{ .Weight }}. {{ .LinkTitle }}</span></li>{{ end }}
+        {{ range $pages.ByWeight }}<li>{{ .LinkTitle }}</li>{{ end }}
       </ol>
       <p>In an emergency, begin with “Start here” and Section 1. The maintenance sections preserve unfinished work and review guidance.</p>
     </nav>
@@ -66,7 +63,7 @@
         {{ with $home.Description }}<p class="lead">{{ . }}</p>{{ end }}
       </header>
       {{ partial "placeholder-alert.html" $home }}
-      <div class="prose">{{ partial "render-content.html" $home }}</div>
+      <div class="prose">{{ partial "render-print-content.html" $home }}</div>
       <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
     </section>
 
@@ -78,7 +75,7 @@
           {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
         </header>
         {{ partial "placeholder-alert.html" . }}
-        <div class="prose">{{ partial "render-content.html" . }}</div>
+        <div class="prose">{{ partial "render-print-content.html" . }}</div>
         <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
       </section>
     {{ end }}

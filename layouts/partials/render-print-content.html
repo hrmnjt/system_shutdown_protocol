@@ -1,0 +1,6 @@
+{{- $content := partial "render-content.html" . -}}
+{{- $content = replaceRE `<(/?)h5([ >])` `<${1}h6${2}` $content -}}
+{{- $content = replaceRE `<(/?)h4([ >])` `<${1}h5${2}` $content -}}
+{{- $content = replaceRE `<(/?)h3([ >])` `<${1}h4${2}` $content -}}
+{{- $content = replaceRE `<(/?)h2([ >])` `<${1}h3${2}` $content -}}
+{{- $content | safeHTML -}}

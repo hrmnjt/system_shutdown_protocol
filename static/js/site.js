@@ -17,10 +17,15 @@
           : "Hosted web copy";
   }
 
-  // Keep the full navigation visible without JavaScript, but collapse it on
-  // phone-sized screens once enhancement is available.
+  // Navigation remains available as a closed disclosure without JavaScript.
+  // With enhancement, keep it expanded on larger screens and compact on phones.
   const contents = document.querySelector(".site-nav details");
-  if (contents && window.matchMedia("(max-width: 760px)").matches) {
-    contents.removeAttribute("open");
-  }
+  const phoneLayout = window.matchMedia("(max-width: 760px)");
+  const syncNavigation = () => {
+    if (!contents) return;
+    contents.toggleAttribute("open", !phoneLayout.matches);
+  };
+
+  syncNavigation();
+  phoneLayout.addEventListener("change", syncNavigation);
 })();

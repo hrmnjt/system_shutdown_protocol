@@ -11,7 +11,6 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-PLACEHOLDER_RE = re.compile(r"\[[A-Za-z][^\[\]]*\]")
 
 
 class Document(HTMLParser):
@@ -30,7 +29,14 @@ class Document(HTMLParser):
         self.has_robots_policy = False
         self.placeholder_count = 0
         self.placeholder_alert_count = 0
+        self.reported_placeholder_counts: list[int] = []
         self.source_pages: list[str] = []
+        self.heading_levels: list[int] = []
+        self.table_count = 0
+        self.table_scroll_count = 0
+        self.list_stack: list[str] = []
+        self.list_item_stack: list[list[str] | None] = []
+        self.ordered_item_texts: list[str] = []
         self.stack: list[str] = []
 
     def handle_starttag(self, tag: str, attrs_list: list[tuple[str, str | None]]) -> None:
@@ -45,12 +51,22 @@ class Document(HTMLParser):
         elif tag == "meta" and attrs.get("name", "").lower() == "robots":
             policy = attrs.get("content", "").lower()
             self.has_robots_policy = "noindex" in policy and "noarchive" in policy
-        elif tag == "h1":
-            self.h1_count += 1
+        elif re.fullmatch(r"h[1-6]", tag):
+            level = int(tag[1])
+            self.heading_levels.append(level)
+            if level == 1:
+                self.h1_count += 1
         elif tag == "main":
             self.main_count += 1
         elif tag == "img" and "alt" not in attrs:
             self.errors.append("image is missing an alt attribute")
+        elif tag == "input" and attrs.get("type") == "checkbox" and "disabled" in attrs:
+            self.errors.append("disabled checkbox should be rendered as a static checklist marker")
+
+        if tag in {"ol", "ul"}:
+            self.list_stack.append(tag)
+        elif tag == "li":
+            self.list_item_stack.append([] if self.list_stack and self.list_stack[-1] == "ol" else None)
 
         if "id" in attrs:
             self.ids.append(attrs["id"])
@@ -61,6 +77,12 @@ class Document(HTMLParser):
             self.placeholder_count += 1
         if "placeholder-alert" in classes:
             self.placeholder_alert_count += 1
+            if attrs.get("data-placeholder-count", "").isdigit():
+                self.reported_placeholder_counts.append(int(attrs["data-placeholder-count"]))
+        if tag == "table":
+            self.table_count += 1
+        if "table-scroll" in classes:
+            self.table_scroll_count += 1
         for attribute in ("href", "src"):
             if attrs.get(attribute):
                 self.links.append((attribute, attrs[attribute]))
@@ -75,6 +97,12 @@ class Document(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         if tag == "title" and self.title_depth:
             self.title_depth -= 1
+        if tag == "li" and self.list_item_stack:
+            item = self.list_item_stack.pop()
+            if item is not None:
+                self.ordered_item_texts.append("".join(item).strip())
+        elif tag in {"ol", "ul"} and self.list_stack:
+            self.list_stack.pop()
         if self.stack:
             # Be tolerant of void elements and HTML's optional closing tags.
             for index in range(len(self.stack) - 1, -1, -1):
@@ -85,6 +113,9 @@ class Document(HTMLParser):
     def handle_data(self, data: str) -> None:
         if self.title_depth:
             self.title_text.append(data)
+        for item in self.list_item_stack:
+            if item is not None:
+                item.append(data)
 
     def finish(self) -> None:
         if not "".join(self.title_text).strip():
@@ -99,11 +130,26 @@ class Document(HTMLParser):
             self.errors.append(f"expected exactly one h1, found {self.h1_count}")
         if self.main_count != 1:
             self.errors.append(f"expected exactly one main, found {self.main_count}")
+        for previous, current in zip(self.heading_levels, self.heading_levels[1:]):
+            if current > previous + 1:
+                self.errors.append(f"heading level jumps from h{previous} to h{current}")
+                break
         duplicates = sorted({value for value in self.ids if self.ids.count(value) > 1})
         if duplicates:
             self.errors.append(f"duplicate IDs: {', '.join(duplicates)}")
-        if self.placeholder_count and not self.placeholder_alert_count:
-            self.errors.append("highlighted placeholders exist without a visible alert")
+        if self.path.name == "print.html":
+            if sum(self.reported_placeholder_counts) != self.placeholder_count:
+                self.errors.append("printed placeholder counts do not match highlighted placeholders")
+        else:
+            expected_alerts = 1 if self.placeholder_count else 0
+            if self.placeholder_alert_count != expected_alerts:
+                self.errors.append("page placeholder alert does not match highlighted placeholders")
+            if sum(self.reported_placeholder_counts) != self.placeholder_count:
+                self.errors.append("reported placeholder count does not match highlighted placeholders")
+        if self.table_count != self.table_scroll_count:
+            self.errors.append("each table must have a keyboard-scrollable wrapper")
+        if any(re.match(r"^\d+\.\s", text) for text in self.ordered_item_texts):
+            self.errors.append("ordered list item repeats an explicit numeric prefix")
 
 
 def resolve_local(source: Path, value: str) -> tuple[Path | None, str]:

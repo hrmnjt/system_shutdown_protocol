@@ -1,15 +1,19 @@
-{{- $placeholderPattern := `\[[A-Za-z][^\[\]]*\]` -}}
+{{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
+{{- $openTaskPattern := `(?m)^\s*[-*+] \[ \]` -}}
 {{- $navPages := where site.RegularPages "Params.nav" "ne" false -}}
 {{- $guidePages := where $navPages "Params.category" "guide" -}}
 {{- $maintenancePages := where $navPages "Params.category" "maintenance" -}}
 {{- $unfinishedCount := 0 -}}
+{{- if gt (len (findRE $placeholderPattern site.Home.Content)) 0 -}}
+  {{- $unfinishedCount = add $unfinishedCount 1 -}}
+{{- end -}}
 {{- range $navPages -}}
-  {{- if gt (len (findRE $placeholderPattern .RawContent)) 0 -}}
+  {{- if gt (len (findRE $placeholderPattern .Content)) 0 -}}
     {{- $unfinishedCount = add $unfinishedCount 1 -}}
   {{- end -}}
 {{- end -}}
 <!doctype html>
-<html lang="{{ site.Language.LanguageCode | default "en" }}">
+<html lang="{{ site.Language.Lang | default "en" }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,14 +59,14 @@
 
   <div class="page-shell">
     <nav class="site-nav" aria-label="Protocol sections">
-      <details open>
+      <details>
         <summary><span>Contents</span><span class="nav-current">{{ if .IsHome }}Start here{{ else }}{{ .LinkTitle }}{{ end }}</span></summary>
         <div class="nav-group">
           <p class="nav-heading">Family guide</p>
-          <ol>
+          <ul class="nav-list">
             <li><a href="{{ "index.html" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>Start here</a></li>
             {{ range $guidePages.ByWeight }}
-              {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .RawContent)) 0 }}
+              {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
               <li>
                 <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>
                   <span>{{ .Weight }}. {{ .LinkTitle }}</span>
@@ -70,14 +74,14 @@
                 </a>
               </li>
             {{ end }}
-          </ol>
+          </ul>
         </div>
         <div class="nav-group">
           <p class="nav-heading">Keep it current</p>
-          <ol>
+          <ul class="nav-list">
             {{ range $maintenancePages.ByWeight }}
-              {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .RawContent)) 0 }}
-              {{ $hasOpenTasks := in .RawContent "- [ ]" }}
+              {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
+              {{ $hasOpenTasks := gt (len (findRE $openTaskPattern .RawContent)) 0 }}
               {{ $needsWork := or $hasPlaceholders $hasOpenTasks }}
               <li>
                 <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>
@@ -86,7 +90,7 @@
                 </a>
               </li>
             {{ end }}
-          </ol>
+          </ul>
         </div>
       </details>
       <div class="review-date">
@@ -103,6 +107,7 @@
 
   <footer class="site-footer">
     <p><strong>Privacy:</strong> this handbook is not encrypted. Keep it secure and do not add passwords or recovery keys.</p>
+    {{ with site.GetPage "/print" }}<p class="footer-print-link"><a href="{{ .RelPermalink }}">Print full handbook</a></p>{{ end }}
   </footer>
 </body>
 </html>

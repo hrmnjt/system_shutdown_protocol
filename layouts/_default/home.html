@@ -1,5 +1,6 @@
 {{ define "main" }}
-  {{- $placeholderPattern := `\[[A-Za-z][^\[\]]*\]` -}}
+  {{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
+  {{- $openTaskPattern := `(?m)^\s*[-*+] \[ \]` -}}
   {{- $navPages := where site.RegularPages "Params.nav" "ne" false -}}
   {{- $guidePages := where $navPages "Params.category" "guide" -}}
   {{- $maintenancePages := where $navPages "Params.category" "maintenance" -}}
@@ -10,7 +11,7 @@
       {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
     </header>
 
-    <div class="notice notice-important" role="note">
+    <div class="callout callout-important" role="note">
       <strong>If you have opened this after my death:</strong>
       begin with the immediate steps below. You do not need to understand or finish everything today.
     </div>
@@ -25,7 +26,7 @@
       <h2 id="guide-sections-heading">Family guide</h2>
       <div class="card-grid">
         {{ range $guidePages.ByWeight }}
-          {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .RawContent)) 0 }}
+          {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
           <a class="card{{ if $hasPlaceholders }} card-unfinished{{ end }}" href="{{ .RelPermalink }}">
             <span class="card-number">Section {{ .Weight }}</span>
             <strong>{{ .LinkTitle }}</strong>
@@ -41,8 +42,8 @@
       <p>Known gaps remain visible here so that unfinished plans are not lost.</p>
       <div class="card-grid">
         {{ range $maintenancePages.ByWeight }}
-          {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .RawContent)) 0 }}
-          {{ $hasOpenTasks := in .RawContent "- [ ]" }}
+          {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .Content)) 0 }}
+          {{ $hasOpenTasks := gt (len (findRE $openTaskPattern .RawContent)) 0 }}
           {{ $needsWork := or $hasPlaceholders $hasOpenTasks }}
           <a class="card{{ if $needsWork }} card-unfinished{{ end }}" href="{{ .RelPermalink }}">
             <span class="card-number">Section {{ .Weight }}</span>
