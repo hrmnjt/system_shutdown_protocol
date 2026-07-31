@@ -2,7 +2,8 @@
 title: "First 24 hours"
 linkTitle: "First 24 hours"
 description: "The few things that may need immediate attention."
-weight: 10
+weight: 1
+category: "guide"
 ---
 
 ## Start with people, not administration

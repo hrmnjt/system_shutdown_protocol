@@ -1,0 +1,2 @@
+{{- $placeholderPattern := `\[([A-Za-z][^\[\]]*)\]` -}}
+{{- .Content | replaceRE $placeholderPattern `<mark class="placeholder" title="Unfinished placeholder—replace or remove this">[$1]</mark>` | safeHTML -}}

@@ -2,7 +2,8 @@
 title: "Glossary"
 linkTitle: "Glossary"
 description: "Plain-language explanations of terms used in the guide."
-weight: 90
+weight: 8
+category: "guide"
 ---
 
 Add terms that may be unfamiliar to the people using this guide. Definitions here are general and do not replace local legal advice.

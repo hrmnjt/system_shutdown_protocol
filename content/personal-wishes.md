@@ -2,7 +2,8 @@
 title: "Personal wishes"
 linkTitle: "Personal wishes"
 description: "Personal, cultural, and practical preferences, clearly separated from legal documents."
-weight: 70
+weight: 7
+category: "guide"
 ---
 
 Use this page to explain preferences in your own words. Where a wish requires legal force, medical authority, or formal consent, also record it in the proper document for your jurisdiction.

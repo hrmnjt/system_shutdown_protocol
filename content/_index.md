@@ -7,7 +7,15 @@ description: "A calm, step-by-step guide to what needs attention and where to fi
 
 This guide records information that my family may need and responsibilities that I normally handle. It is organized by urgency; there is no expectation that everything be handled at once.
 
-> **This is currently a template.** Any text in `[square brackets]` must be replaced before this guide is relied upon.
+> **This is currently a template.** Highlighted text in `[square brackets]` is information I have not yet completed or verified. The TODO page explains other known gaps.
+
+## Protocol identity
+
+- Person: **[full legal name]**
+- Intended jurisdiction: **[country and state, province, or territory]**
+- Primary language for official processes: **[language]**
+
+This guide supplements—but does not replace—the will, official records, or qualified legal and financial advice.
 
 ## Before doing anything
 

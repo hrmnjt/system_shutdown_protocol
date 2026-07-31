@@ -1,13 +1,22 @@
 {{ define "main" }}
   <article>
     <header class="page-header">
-      <p class="eyebrow">Step {{ printf "%02d" .Weight }}</p>
+      <p class="eyebrow">Section {{ .Weight }}</p>
       <h1>{{ .Title }}</h1>
       {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
     </header>
 
+    {{ partial "placeholder-alert.html" . }}
+    {{- $openTasks := findRE `(?m)^- \[ \]` .RawContent -}}
+    {{ if and (eq .Params.category "maintenance") (gt (len $openTasks) 0) }}
+      <div class="task-summary" role="note">
+        <strong>{{ len $openTasks }} open TODO {{ if eq (len $openTasks) 1 }}item{{ else }}items{{ end }}</strong>
+        <span>These remain intentionally visible until they are completed or removed.</span>
+      </div>
+    {{ end }}
+
     <div class="prose">
-      {{ .Content }}
+      {{ partial "render-content.html" . }}
     </div>
 
     <nav class="page-navigation" aria-label="Previous and next sections">

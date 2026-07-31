@@ -2,7 +2,8 @@
 title: "First week"
 linkTitle: "First week"
 description: "Notifications, records, and practical arrangements for the following days."
-weight: 20
+weight: 2
+category: "guide"
 ---
 
 ## Work with the responsible person
@@ -31,6 +32,16 @@ Use the **Key contacts** section rather than trying to remember everyone.
 - [ ] Check rent, mortgage, insurance, school, care, and medical obligations.
 - [ ] Redirect important physical mail if appropriate.
 
-## Records
+## Records and decisions
 
 Create one folder—physical or digital—for every document received. Do not give away the only original of an important document without recording who received it.
+
+Keep a simple action log:
+
+| Date | Person or organization | What happened | Reference or next step |
+|---|---|---|---|
+| [date] | [name] | [action or decision] | [reference/follow-up] |
+
+## Be alert to fraud and pressure
+
+A death can trigger scams, impersonation, and rushed requests for money or information. Verify callers through a known official number, keep reference numbers, and ask the executor or adviser before making unusual payments or sharing identity documents. Urgency from a caller is not proof that an action is legally urgent.

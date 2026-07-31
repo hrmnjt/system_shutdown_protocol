@@ -1,0 +1,70 @@
+{{- $placeholderPattern := `\[[A-Za-z][^\[\]]*\]` -}}
+{{- $pages := where site.RegularPages "Params.nav" "ne" false -}}
+{{- $home := site.Home -}}
+{{- $unfinishedCount := 0 -}}
+{{- if gt (len (findRE $placeholderPattern $home.RawContent)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
+{{- range $pages -}}
+  {{- if gt (len (findRE $placeholderPattern .RawContent)) 0 -}}{{- $unfinishedCount = add $unfinishedCount 1 -}}{{- end -}}
+{{- end -}}
+<!doctype html>
+<html lang="{{ site.Language.LanguageCode | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Printable {{ site.Title }} handbook">
+  <title>Printable handbook · {{ site.Title }}</title>
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <script src="{{ "js/print.js" | relURL }}" defer></script>
+</head>
+<body class="print-handbook">
+  <a class="skip-link" href="#print-content">Skip to handbook</a>
+  <div class="print-toolbar">
+    <a href="{{ "/" | relURL }}">← Return to handbook</a>
+    <button id="print-button" type="button">Open print dialog</button>
+  </div>
+
+  <main id="print-content" class="print-document">
+    <header class="print-cover">
+      <p class="eyebrow">Offline family guide</p>
+      <h1>{{ site.Title }}</h1>
+      <p class="lead">{{ site.Params.description }}</p>
+      <dl class="print-metadata">
+        <div><dt>Last reviewed</dt><dd{{ if eq site.Params.lastReviewed "Not yet reviewed" }} class="not-reviewed"{{ end }}>{{ site.Params.lastReviewed }}</dd></div>
+        <div><dt>Printed</dt><dd>This copy is uncontrolled; check that it is current.</dd></div>
+      </dl>
+      {{ if gt $unfinishedCount 0 }}
+        <div class="placeholder-alert" role="note">
+          <span class="placeholder-alert-icon" aria-hidden="true">!</span>
+          <div>
+            <strong>Unfinished protocol</strong>
+            <span>{{ $unfinishedCount }} sections contain highlighted placeholders. Read the TODO section before relying on incomplete details.</span>
+          </div>
+        </div>
+      {{ end }}
+    </header>
+
+    <section class="print-section" data-source-page="start-here">
+      <header class="print-section-header">
+        <p class="eyebrow">Start here</p>
+        <h2>{{ $home.Title }}</h2>
+        {{ with $home.Description }}<p class="lead">{{ . }}</p>{{ end }}
+      </header>
+      {{ partial "placeholder-alert.html" $home }}
+      <div class="prose">{{ partial "render-content.html" $home }}</div>
+    </section>
+
+    {{ range $pages.ByWeight }}
+      <section class="print-section" data-source-page="{{ .File.ContentBaseName }}">
+        <header class="print-section-header">
+          <p class="eyebrow">Section {{ .Weight }}</p>
+          <h2>{{ .Title }}</h2>
+          {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+        </header>
+        {{ partial "placeholder-alert.html" . }}
+        <div class="prose">{{ partial "render-content.html" . }}</div>
+      </section>
+    {{ end }}
+  </main>
+</body>
+</html>

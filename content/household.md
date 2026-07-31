@@ -2,7 +2,8 @@
 title: "Household and dependants"
 linkTitle: "Household & dependants"
 description: "The recurring responsibilities that may otherwise be easy to miss."
-weight: 60
+weight: 6
+category: "guide"
 ---
 
 ## People and care responsibilities

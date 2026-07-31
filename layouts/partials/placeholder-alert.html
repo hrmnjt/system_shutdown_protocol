@@ -1,0 +1,11 @@
+{{- $placeholderPattern := `\[[A-Za-z][^\[\]]*\]` -}}
+{{- $matches := findRE $placeholderPattern .RawContent -}}
+{{- if gt (len $matches) 0 -}}
+<div class="placeholder-alert" role="note">
+  <span class="placeholder-alert-icon" aria-hidden="true">!</span>
+  <div>
+    <strong>{{ len $matches }} unfinished {{ if eq (len $matches) 1 }}placeholder{{ else }}placeholders{{ end }} on this page</strong>
+    <span>Highlighted text still needs to be replaced, verified, or deliberately removed.</span>
+  </div>
+</div>
+{{- end -}}

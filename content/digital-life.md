@@ -2,7 +2,8 @@
 title: "Digital life"
 linkTitle: "Digital life"
 description: "Devices, online services, and safe access without exposing passwords here."
-weight: 50
+weight: 5
+category: "guide"
 ---
 
 ## Secure access method

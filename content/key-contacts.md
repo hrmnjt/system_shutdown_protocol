@@ -2,7 +2,8 @@
 title: "Key contacts"
 linkTitle: "Key contacts"
 description: "The people who can explain, authorize, or help with each part of the process."
-weight: 30
+weight: 3
+category: "guide"
 ---
 
 Replace every placeholder and include at least one backup where possible.

@@ -2,7 +2,8 @@
 title: "Documents and finances"
 linkTitle: "Documents & finances"
 description: "Where records are kept and how the financial picture is organized."
-weight: 40
+weight: 4
+category: "guide"
 ---
 
 ## Document index
