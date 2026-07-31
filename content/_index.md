@@ -1,36 +1,63 @@
 ---
 title: "Start here"
-description: "A calm, step-by-step guide to what needs attention and where to find help."
+description: "I made this to help you find the next step without having to remember everything yourself."
+gapLevel: "critical"
 ---
 
-## What this guide is
+## Before anything else
 
-This guide records information that my family may need and responsibilities that I normally handle. It is organized by urgency; there is no expectation that everything be handled at once.
+If you are reading this because something has happened to me, I am sorry you have to deal with this. I made this manual so you would not have to carry everything in your head or work it all out at once.
 
-> **This is currently a template.** Highlighted text in `[square brackets]` is information I have not yet completed or verified. The TODO page explains other known gaps.
+Take care of yourself and our daughter first. Ask someone you trust to stay with you. You do not need to finish everything today.
 
-## Protocol identity
+> **If I or anyone else may be in immediate danger, call the appropriate local emergency service first.** The verified numbers belong in **[People to call](key-contacts.html#if-there-is-immediate-danger)**.
 
-- Person: **[full legal name]**
-- Intended jurisdiction: **[country and state, province, or territory]**
-- Primary language for official processes: **[language]**
+## Choose what has happened
 
-This guide supplements—but does not replace—the will, official records, or qualified legal and financial advice.
+### I am in hospital and can speak to you
 
-## Before doing anything
+Let me tell you what I need. Write down important decisions involving my health, work, our daughter, our dog, or the next few days.
 
-1. Take care of immediate personal, medical, and cultural needs.
-2. Contact **[primary trusted person and phone number]**.
-3. Contact **[executor, lawyer, or other responsible person and phone number]**.
-4. Open **First 24 hours** and follow only the relevant steps.
+Open **[My health](health-incapacity.html)**, **[Our daughter and dog](family-needs.html)**, or **[My work and our UAE residency](residency-employment.html)** only as needed.
 
-Do not make irreversible financial or digital changes simply because they appear urgent. Laws and procedures differ by location, and the executor or appropriate professional should guide those decisions.
+### I cannot speak for myself, or you cannot reach me
 
-## Where protected information is kept
+1. Get emergency or official help if my safety or location is uncertain.
+2. Ask someone you trust to help with calls and notes.
+3. Open **[My health](health-incapacity.html#if-i-cannot-speak-for-myself)**.
+4. Check **[Access, identity, and authority](authority-documents.html#what-i-intend-you-to-handle)** before signing, moving money, or acting in my name.
+5. Tell my employer if relevant and ask HR for their process in writing.
+6. Make sure our daughter, dog, home, and urgent payments are covered.
 
-This handbook intentionally does **not** contain passwords, recovery codes, or complete account numbers.
+### I have died
 
-- Important documents: **[location]**
-- Private account inventory: **[location and access method]**
-- Password-manager emergency access: **[instructions or location]**
-- Physical keys: **[location]**
+I am so sorry. Please do not try to manage everything alone.
+
+1. Take care of yourself and our daughter, and ask someone close to stay with you.
+2. Follow the local medical and legal process with official or professional help.
+3. Read **[My time-sensitive wishes](personal-wishes.html#please-read-this-first-if-i-have-died)** before making arrangements that are difficult to reverse.
+4. Make sure our daughter and dog are safe.
+5. Find my will and your intended role in **[Access, identity, and authority](authority-documents.html#if-i-have-died)**.
+6. Tell my employer through HR and ask for their process in writing.
+7. Keep my phone number, email, devices, documents, and company property safe.
+8. Wait for the right authority and advice before moving money or distributing property.
+
+## Please do not rush these decisions
+
+Unless safety or qualified advice requires otherwise, please do not:
+
+- reset, erase, discard, or repeatedly try to unlock my devices;
+- cancel my main phone number or email;
+- close accounts or move or distribute money without confirming your authority;
+- give away an original document without recording who received it;
+- sign in to company systems as me or return equipment informally;
+- make a detailed public announcement before speaking with close family; or
+- copy passwords, recovery codes, or private keys into an ordinary message.
+
+Unfamiliar does not always mean urgent. Many things can wait until tomorrow.
+
+## Find the practical details
+
+Start with **[How our household fits together](household-overview.html)**. It points to the people, routines, documents, payments, devices, and other parts of our life that I normally help manage.
+
+Use **[A place to keep notes](action-log.html)** for important calls, documents, and decisions.

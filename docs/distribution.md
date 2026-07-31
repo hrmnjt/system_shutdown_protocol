@@ -1,6 +1,14 @@
 # Distribution model
 
-The protocol has one content version and three distribution formats. A release is complete only when the intended formats show the same protocol version and review date.
+System Shutdown Protocol has one content version and three distribution formats. A release is complete only when hosted, printed, and portable copies contain the same handbook content and show the same protocol version and global review date.
+
+The experience priority is:
+
+1. authenticated hosted phone access;
+2. printed handbook;
+3. portable thumb-drive copy.
+
+This ordering guides usability decisions. It does not permit one format to contain an older or reduced handbook.
 
 ## Shared release identity
 
@@ -12,51 +20,74 @@ lastReviewed = "15 January 2026"
 classification = "Private family document"
 ```
 
-Increment `protocolVersion` whenever distributed content changes. Updating a typo that has not been distributed does not need a new release; changing a released contact, location, process, TODO, or wish does.
+Increment `protocolVersion` whenever distributed content changes. Updating a typo that has not been distributed does not need a new release; changing a released contact, authority status, location, process, gap, or wish does.
 
-Do not describe print, hosted, and portable as versions 1, 2, and 3. They are different formats of the same version. This prevents a family member from mistaking an older printed copy for the authoritative copy merely because it was called “version 1.”
+`lastReviewed` identifies the last complete deliberate review, not the build date. Subject pages also show per-section verification dates. A section verification does not change the global review date by itself.
 
-## Format A: printed locker copy
+Do not describe hosted, print, and portable as versions 1, 2, and 3. They are formats of the same version, so an old copy cannot appear authoritative merely because of its format name.
 
-Purpose: a durable, discoverable copy kept with other important physical documents and valuables.
+## Shared information-security boundary
 
-Release procedure:
+The handbook is a protected map to sensitive information, not the sensitive inventory itself. All formats may contain approved minimum operational contact details, high-level categories, role/status information, and directions for initiating protected access. They must not contain passwords, password-manager master passwords, recovery codes, private or encryption keys, security answers, complete account/card numbers, unnecessary complete government identifiers, detailed financial values, alarm codes, or equivalent bypass secrets.
 
-1. Complete the review and set the version and review date.
-2. Run `make check`.
-3. Open `dist/print.html` in a modern browser.
-4. Inspect print preview for clipped tables, isolated headings, unexpected blank pages, and placeholder visibility.
-5. Print the complete document, including the cover and TODO section.
-6. Confirm the physical copy’s version and review date.
-7. Put it in the agreed locker location and destroy or clearly mark stale copies.
+Credentials and sensitive details remain in encrypted files and a password manager. Recovery must be tested and must not depend solely on the owner’s phone, email, or existing signed-in devices.
 
-The printed copy should point to protected credentials rather than contain them. Paper cannot be remotely revoked and may be photographed, removed, or become outdated.
+Directions to protected information are sensitive. Hosted access controls and physical control of paper and removable media are therefore all necessary. None of the formats should be described as risk-free.
 
-## Format B: authenticated hosted copy
+## Authenticated hosted copy
 
-Purpose: responsive access from a laptop or phone when the physical or portable copy is unavailable.
+**Purpose:** primary responsive access from a phone, with laptop support, when the owner cannot provide context.
 
-The static theme does not implement a password prompt. A password check written in HTML or browser JavaScript would expose the content and password material to anyone who can download the files. Protect the site before any handbook bytes are served.
+The default page is the emergency quick guide. It must route immediate danger first, then communicative hospitalization, inability to communicate or locate, and death. Family actions and reference information appear before owner maintenance.
+
+The static handbook does not implement its own password prompt. A password check written in HTML or browser JavaScript exposes content and password material to anyone who can download the files. Protect the site before any handbook bytes or local search index are served.
+
+The owner rents the hosting infrastructure. Treat the hosting provider, infrastructure administrators, account compromise, logs, backups, snapshots, and preview deployments as part of the threat model.
 
 Minimum deployment properties:
 
 - HTTPS only, with automatic certificate renewal;
 - authentication at a reverse proxy, access gateway, VPN, or hosting platform;
-- a recovery method that at least one trusted family member can actually obtain;
-- rate limiting and logs that do not record handbook content;
+- recovery that the owner’s wife can perform without the owner’s phone, email, or already signed-in devices;
+- rate limiting and logs that do not record handbook content, secrets, or search queries;
 - `Cache-Control: private, no-store` where practical;
-- security headers appropriate for a static site, including a restrictive Content Security Policy;
-- no public repository, public object-storage bucket, preview deployment, or search indexing;
-- a tested backup and a documented way to revoke access;
-- monitoring that does not become a hidden dependency for family access.
+- appropriate security headers, including a restrictive Content Security Policy;
+- no public repository, object-storage bucket, build artifact, preview deployment, or search indexing;
+- protected backups and a documented restore test;
+- a documented way to revoke access;
+- monitoring that does not become a hidden dependency for family access;
+- a payment and ownership plan that does not silently fail when the owner cannot maintain the service.
 
-The generated `noindex`, `nofollow`, and `noarchive` directives reduce accidental indexing but provide no access control. A single shared password is simple but difficult to rotate and audit. An identity-aware proxy or VPN can offer stronger access, but its account-recovery path must remain usable after the owner’s death.
+The generated `noindex`, `nofollow`, and `noarchive` directives reduce accidental indexing but provide no access control. A shared password is simple but difficult to rotate and audit. An identity-aware proxy or VPN can be stronger but only if its recovery path remains usable in the target emergency.
 
-Test at both phone and laptop widths, from a device that is not already authenticated. Confirm that logout, password recovery, and denied access behave as expected.
+A future search feature must be generated and executed locally, transmit no query or handbook content, add no content beyond what is already in the handbook, work offline where technically feasible, and remain an enhancement rather than the only navigation route. Its index receives the same access protection as every HTML page.
 
-## Format C: portable thumb-drive copy
+Test on a current phone and laptop from fresh unauthenticated sessions. Confirm denied access, login, logout, recovery, timeout behavior, and restored access after backup. Test emergency navigation without JavaScript and search with networking disabled.
 
-Purpose: a serverless copy that can be opened directly on a family MacBook.
+## Printed locker copy
+
+**Purpose:** a durable, discoverable copy kept with other important physical documents and valuables.
+
+`dist/print.html` is the print source. After any cover information required to identify the copy, the emergency quick guide should occupy the first one or two substantive pages. The complete handbook follows, including the known-gaps and review/operations sections.
+
+Release procedure:
+
+1. Complete the full review and set the version and global review date.
+2. Confirm applicable per-section verification dates.
+3. Run `make check`.
+4. Open `dist/print.html` in a modern browser.
+5. Inspect the emergency quick guide, section starts, records, tables, action-log form, and placeholders for clipping or ambiguous pagination.
+6. Print the complete document, including the cover, emergency guide, known gaps, and review identity.
+7. Confirm the physical copy’s version and review date.
+8. Put it in the agreed secure location and destroy or clearly mark stale copies.
+
+The printed copy points to protected credentials rather than containing them. Paper cannot be remotely revoked and may be photographed, removed, annotated, or become outdated. Print styling should remain high contrast and ink conscious.
+
+The family may annotate the printed handbook or action-log forms during an incident. Those annotations are operational records, not automatically authoritative updates to the released handbook.
+
+## Portable thumb-drive copy
+
+**Purpose:** a serverless fallback that can be opened directly on a family MacBook without software installation or internet access.
 
 Create it with:
 
@@ -71,21 +102,37 @@ Test procedure:
 1. Eject and reconnect the drive.
 2. Disable Wi-Fi.
 3. Double-click `START HERE.html` in Finder.
-4. Navigate through every section and open the printable handbook.
-5. Repeat on a second Mac user account if practical.
-6. Confirm the displayed version and review date.
+4. Confirm the emergency quick guide is the entry point.
+5. Navigate through every section and open the printable handbook.
+6. Test local search, if implemented, without networking; confirm navigation still works if JavaScript is disabled.
+7. Repeat on a second Mac user account if practical.
+8. Confirm the displayed version and review dates.
 
-An unencrypted drive is easiest for family to use but depends entirely on physical security. An encrypted drive provides better confidentiality but creates another password-recovery dependency. Make that trade-off deliberately and record the access method outside the drive.
+An unencrypted drive is easiest to use but depends entirely on physical security. An encrypted drive improves confidentiality but creates another recovery dependency. Make that trade-off deliberately and record its recoverable access method outside the drive. Copy the complete folder; a single HTML file is not the portable handbook.
+
+## Cross-format usability validation
+
+Before the wife-first release, conduct the private scenarios described in `docs/content-specification.md`. The owner’s wife should use a phone to respond to inability-to-communicate and death scenarios, identify a next safe action and an action to avoid, and explain the difference between coordination and verified authority. She should also review whether the words sound like her husband speaking to her rather than an institution instructing her.
+
+A backup-relative test belongs to a later edition designed for the grave situation in which the wife is also unavailable. Do not claim that the current wife-first release supports that audience.
+
+Technical link validation does not replace this test.
 
 ## Release checklist
 
-- [ ] Content review is complete.
-- [ ] TODOs and highlighted placeholders accurately describe all known gaps.
-- [ ] Version and review date are updated.
+- [ ] Family content matches `docs/content-specification.md`.
+- [ ] The emergency quick guide is the default hosted/portable entry point and leads the printed handbook.
+- [ ] Immediate danger takes precedence over family coordination.
+- [ ] Wife and daughter sponsorship dependencies are represented without unverified procedural claims.
+- [ ] Incapacity authority and executor authority are distinguished even when intended for the same person.
+- [ ] Known gaps and highlighted placeholders accurately describe missing information.
+- [ ] No handbook format or search index contains credentials, complete sensitive identifiers, or bypass secrets.
+- [ ] Protected encrypted-file and password-manager recovery is tested without the owner’s devices.
+- [ ] Version, global review date, and applicable section dates are updated.
 - [ ] `make check` passes.
+- [ ] Hosted authentication and recovery pass fresh phone and laptop tests.
 - [ ] Printed format passes print preview and physical spot checks.
-- [ ] Hosted authentication is tested from fresh phone and laptop sessions.
-- [ ] Portable format is tested from removable storage while offline.
-- [ ] A trusted nontechnical person can find the first action and key contact.
+- [ ] Portable format passes removable-storage and offline tests.
+- [ ] Wife-facing scenario and natural-language review is completed without coaching.
 - [ ] Stale copies are replaced or clearly marked.
-- [ ] Copy locations and holders are recorded in the protocol.
+- [ ] Current copy locations and holders are recorded.

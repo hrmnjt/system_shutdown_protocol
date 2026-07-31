@@ -1,17 +1,33 @@
 # System Shutdown Protocol
 
-A family continuity handbook authored in Markdown and published as offline HTML, print, and an eventually authenticated website using [Hugo](https://gohugo.io/).
+> Our household continuity manual
+
+A household continuity manual authored in Markdown and published with [Hugo](https://gohugo.io/) as an authenticated hosted site, a printed handbook, and a portable offline copy.
 
 ## Purpose and audience
 
-The protocol is intended for the owner’s nontechnical family to follow after the owner dies. It combines:
+The current protocol is written directly from the owner to his wife. It helps her choose safe actions and find essential context when the owner is:
 
-1. knowledge the family may not currently have about contacts, systems, assets, responsibilities, routines, and wishes; and
-2. a visible backlog of preparations the owner still intends to complete.
+- hospitalized but able to communicate;
+- unable to communicate or unexpectedly uncontactable;
+- incapacitated for a prolonged period; or
+- dead.
 
-The generated experience must remain calm and usable for people who may be grieving or under stress. The repository is currently a structured draft: theme and distribution foundations exist, while personal content, jurisdiction-specific guidance, and final content organization remain unfinished.
+It is designed for an Indian family living in Abu Dhabi, with a minor daughter, a dog, UAE residency dependencies, and interests across the UAE and India. Legal, medical, employment, sponsorship, guardianship, financial, cultural, and estate procedures must be verified for the applicable circumstances; the project does not treat generic prose as legal authority.
 
-Coding agents should read [`AGENTS.md`](AGENTS.md) before changing the project. It records product intent, invariants, security boundaries, unresolved decisions, and completion checks.
+The wife-facing experience is primary and should feel like a calm letter from the owner rather than an institutional procedure manual. Preparation, known gaps, review, and operations remain transparent in every format but do not lead the emergency journey. A later version may cover the grave situation in which the wife is also unavailable; that route is deliberately outside the current scope.
+
+The approved information architecture and content model are in [`docs/content-specification.md`](docs/content-specification.md). A short scenario-based emergency guide leads into a structured manual covering household ownership, routines, family care, home, money, health, work and residency, digital systems, authority, wishes, and legacy. Personal information and professional verification remain deliberately incomplete.
+
+Coding agents must read [`AGENTS.md`](AGENTS.md) before changing the project. It records product intent, invariants, security boundaries, unresolved work, and completion checks.
+
+## Handbook security model
+
+The handbook is a **protected map to sensitive information, not the sensitive inventory itself**. It may explain what categories exist, why they matter, whom to contact, and how an authorized person initiates access to protected encrypted files or a password manager.
+
+Do not put passwords, password-manager master passwords, recovery codes, private or encryption keys, security-question answers, complete account/card numbers, unnecessary complete government identifiers, detailed financial values, alarm codes, or equivalent bypass secrets in the repository or generated files.
+
+Directions to protected information are sensitive too. Hosted authentication must occur before handbook bytes are served. Printed paper and static offline files are not inherently encrypted and require deliberate physical protection.
 
 ## Build
 
@@ -21,9 +37,9 @@ Hugo extended v0.152 or later is recommended.
 make build
 ```
 
-The build cleans stale output and writes the offline site to `dist/`. Open `dist/index.html` directly in a browser; no web server or internet connection is required. Copy the **entire** `dist/` directory, not only `index.html`.
+The build cleans stale output and writes the offline-capable site to `dist/`. Open `dist/index.html` directly in a browser; no web server or internet connection is required. Copy the **entire** `dist/` directory, not only `index.html`.
 
-To run the stricter build and offline-link validation:
+Run the stricter build and offline-link validation with:
 
 ```sh
 make check
@@ -35,21 +51,27 @@ For local authoring with automatic refresh:
 make serve
 ```
 
-The development server is only for editing—the final `dist/` folder remains fully offline.
+The development server is only for editing. The generated files remain usable offline. The custom theme uses local assets, accessible Gruvbox Light and Dark palettes, and high-contrast, ink-conscious print styling.
 
-The interface uses the Gruvbox Light palette by default and automatically switches to Gruvbox Dark when the operating system requests dark mode. Print output remains high-contrast and ink-conscious rather than reproducing the screen background colours.
+## One version, three formats
 
-## Distribution formats
+All formats carry the same `params.protocolVersion` and `params.lastReviewed` values from [`hugo.toml`](hugo.toml) and contain the same released handbook content. They are formats of one version, not versions 1, 2, and 3.
 
-All formats should carry the same `params.protocolVersion` and `params.lastReviewed` values from [`hugo.toml`](hugo.toml). Treat print, hosted, and portable as **formats of one version**, not as versions 1, 2, and 3; this makes it possible to identify stale copies.
+Experience priority is:
+
+1. authenticated hosted phone access;
+2. printed handbook;
+3. portable thumb-drive copy.
+
+### Authenticated hosted copy
+
+Deploy the complete `dist/` directory behind HTTPS and server-, proxy-, VPN-, gateway-, or platform-level authentication. A client-side password prompt is not access control. The generated `noindex`, `nofollow`, and `noarchive` directives reduce accidental indexing but provide no security.
+
+Recovery must work for the owner’s wife without the owner’s phone, email, or already signed-in devices. Rented infrastructure introduces hosting-provider and administrator exposure and must be included in the threat model.
 
 ### Printed locker copy
 
-Open `dist/print.html`, use **Open print dialog**, inspect every page in print preview, and print the complete handbook. Its cover includes the protocol version, review date, print-build date, privacy classification, and stale-copy warning.
-
-### Password-protected hosted copy
-
-Deploy the complete `dist/` directory behind authentication and HTTPS. The generated pages include `noindex`, `nofollow`, and `noarchive`, but these directives are not security controls. Authentication must happen at the web server, identity proxy, or hosting layer—not in client-side JavaScript.
+Open `dist/print.html`, inspect every page in print preview, and print the complete handbook. The emergency guide has a hard target of one or two pages, followed by contents grouped into household-manual parts. The printout retains the version, global review date, per-section verification dates, privacy marking, known gaps, note forms, and stale-copy warning.
 
 ### Portable thumb-drive copy
 
@@ -57,54 +79,47 @@ Deploy the complete `dist/` directory behind authentication and HTTPS. The gener
 make portable
 ```
 
-This validates the build and creates a versioned folder under `release/` containing `START HERE.html` and `README.txt`. Copy that entire folder to the thumb drive. On a MacBook, double-click `START HERE.html`; it uses only nearby files and does not need a server or network connection.
+This validates the build and creates a versioned folder under `release/` containing `START HERE.html` and `README.txt`. Copy the entire folder to the thumb drive. On a MacBook, double-click `START HERE.html`; it uses nearby files and needs no server or network connection.
 
-See [`docs/distribution.md`](docs/distribution.md) for the release and security model.
+See [`docs/distribution.md`](docs/distribution.md) for the complete release and security model.
 
 ## Edit content
 
-Family-facing pages live in [`content/`](content/). Page order and displayed section numbers are controlled by the sequential `weight` field in each file’s front matter.
+Family-facing and maintenance pages live in [`content/`](content/). Follow [`docs/content-specification.md`](docs/content-specification.md): preserve the short emergency entry point, household overview, recurring calendar, three manual parts, useful tools, and low-prominence maintenance pages.
 
 Write missing information in square brackets with a leading letter, for example:
 
 ```md
-- Executor: **[name and phone number]**
+- Intended executor: **[person and verification status]**
 ```
 
-The theme automatically highlights these placeholders and shows a quiet completion count in each affected page header and home-page card. The printable handbook includes one cover summary and identifies affected sections in its contents instead of repeating warnings throughout. Task-list boxes such as `- [ ]` are not treated as placeholders; they render as static, print-friendly boxes and browser copies do not save checklist progress.
+Missing values remain visible at their canonical point of use. All preparation work belongs on one known-gaps page and is classified as critical, important, or optional/future review. Do not use a percentage-complete score or invent facts to make the draft look ready.
 
-Keep planned and incomplete work in [`content/todo.md`](content/todo.md). Remove an item when it is complete; if it is only partly complete, explain what exists and what remains so the note is still useful without you.
+Changeable facts should have one canonical location. Emergency pages may repeat stable safety principles and warnings, but should link to canonical contacts, authority status, document locations, and protected-access routes.
 
-## Review date
+## Review model
 
-`params.lastReviewed` in [`hugo.toml`](hugo.toml) means the last date on which contacts, authority documents, document locations, finances, access, responsibilities, wishes, TODOs, offline behavior, and print output were deliberately checked. It is not a build timestamp.
+`params.lastReviewed` means the last complete, deliberate review of contacts, authority, documents, finances, access, responsibilities, wishes, gaps, hosted recovery, offline behavior, and print output. It is not a build timestamp or edit date.
 
-Follow the checklist in [`content/preparedness.md`](content/preparedness.md). Only after completing the applicable checks should you set an unambiguous date such as:
+The content model also uses per-section verification dates for volatile information. Updating one section does not by itself change the global review date.
+
+Follow the review procedure before setting an unambiguous date such as:
 
 ```toml
 lastReviewed = "15 January 2026"
 ```
 
-Then rebuild, retest, and replace distributed copies.
-
-## Print
-
-Use **Print full handbook** in the site header to open `dist/print.html`. It combines the cover, contents, start page, and every numbered section into one print-optimized document. Inspect print preview before distributing it; browsers and printers can paginate tables differently.
+Increment the protocol version when released content changes, rebuild all formats, and replace or clearly mark stale copies.
 
 ## Before distributing
 
-1. Resolve highlighted placeholders or leave a clear corresponding explanation on the TODO page.
-2. Complete the review checklist and set an accurate review date.
-3. Run `make check`.
-4. Open `dist/index.html` on a phone-sized viewport and a laptop-sized viewport.
-5. Run `make portable` and test `START HERE.html` from removable storage with networking disabled.
-6. Inspect `dist/print.html` in print preview and print the urgent sections or full handbook.
-7. Test the hosted authentication and recovery path from outside your normal signed-in devices.
-8. Give a trusted nontechnical person a short findability test.
-9. Replace stale offline and printed copies.
-
-## Security
-
-The generated HTML is not encrypted. Do not put passwords, recovery codes, private keys, security-question answers, or unnecessary complete account numbers in this repository.
-
-Use the handbook to point family members to a separate protected inventory and credential-recovery process. Review repository history before making it public or sharing it.
+1. Resolve placeholders or accurately classify the remaining gaps.
+2. Verify that the emergency guide identifies immediate danger, the applicable scenario, a next safe action, and an action to avoid, and confirm it fits within two printed pages.
+3. Complete the full review and set the version and global review date.
+4. Run `make check`.
+5. Test hosted authentication and recovery from a fresh phone session without the owner’s devices.
+6. Test the phone layout and local search with networking disabled, then confirm emergency navigation still works with JavaScript unavailable.
+7. Inspect the complete handbook in print preview and physically spot-check the emergency quick guide, records, and action log.
+8. Run `make portable` and test `START HERE.html` from removable storage while offline.
+9. Ask the wife to complete both emergency and household-manual tasks, then revise information ownership, labels, and language that do not match how she understands their life.
+10. Replace stale offline and printed copies and record where current copies are held.

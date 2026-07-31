@@ -1,5 +1,11 @@
 {{- $placeholderPattern := `\[[A-Za-z][^<>\[\]\r\n]*\]` -}}
-{{- $pages := where site.RegularPages "Params.nav" "ne" false -}}
+{{- $pages := where site.RegularPages "Params.category" "in" (slice "reference" "tool" "maintenance") -}}
+{{- $referencePages := where $pages "Params.category" "reference" -}}
+{{- $essentialPages := where $referencePages "Params.manualPart" "essentials" -}}
+{{- $householdPages := where $referencePages "Params.manualPart" "household" -}}
+{{- $legacyPages := where $referencePages "Params.manualPart" "legacy" -}}
+{{- $toolPages := where $pages "Params.category" "tool" -}}
+{{- $maintenancePages := where $pages "Params.category" "maintenance" -}}
 {{- $home := site.Home -}}
 {{- $homePlaceholderCount := len (findRE $placeholderPattern $home.Content) -}}
 {{- $placeholderCount := $homePlaceholderCount -}}
@@ -25,68 +31,98 @@
 <body class="print-handbook">
   <a class="skip-link" href="#print-content">Skip to handbook</a>
   <div class="print-toolbar">
-    <a href="{{ "index.html" | relURL }}">← Return to handbook</a>
+    <a href="{{ "index.html" | relURL }}">← Return to emergency guide</a>
     <button id="print-button" type="button">Open print dialog</button>
   </div>
 
   <main id="print-content" class="print-document">
     <header class="print-cover">
-      <p class="eyebrow">Printable locker copy</p>
+      <p class="eyebrow">Printable family copy</p>
       <h1>{{ site.Title }}</h1>
       <p class="lead">{{ site.Params.description }}</p>
       <p class="document-classification">{{ site.Params.classification }}</p>
       <dl class="print-metadata">
         <div><dt>Version</dt><dd>{{ site.Params.protocolVersion }}</dd></div>
-        <div><dt>Last reviewed</dt><dd{{ if eq site.Params.lastReviewed "Not yet reviewed" }} class="not-reviewed"{{ end }}>{{ site.Params.lastReviewed }}</dd></div>
+        <div><dt>Status of this copy</dt><dd>{{ site.Params.protocolStatus }}</dd></div>
+        <div><dt>I last fully reviewed it</dt><dd{{ if eq site.Params.lastReviewed "Not yet reviewed" }} class="not-reviewed"{{ end }}>{{ site.Params.lastReviewed }}</dd></div>
         <div><dt>Built for printing</dt><dd>{{ now.Format "2 January 2006" }}</dd></div>
         <div><dt>Copy status</dt><dd>Uncontrolled after printing; compare its version and review date with newer copies.</dd></div>
       </dl>
       {{ if gt $placeholderCount 0 }}
-        <p class="completion-summary" data-placeholder-count="{{ $placeholderCount }}">
-          <strong>Completion note:</strong> Highlighted text marks {{ $placeholderCount }} {{ if eq $placeholderCount 1 }}detail{{ else }}details{{ end }} to complete across {{ $unfinishedCount }} {{ if eq $unfinishedCount 1 }}section{{ else }}sections{{ end }}.
+        <p class="completion-summary" data-has-placeholders="true">
+          <strong>This is still a draft.</strong> Highlighted text marks information I have not filled in or checked yet. The Known gaps page records the preparation I still need to finish.
         </p>
       {{ end }}
-      <p class="print-privacy"><strong>Private:</strong> keep this copy with the valuables and documents it references. It does not contain passwords or recovery keys.</p>
+      <p class="print-privacy"><strong>Please keep this private.</strong> It tells you how to reach protected information, but it does not contain passwords or recovery keys and is not proof of legal authority.</p>
     </header>
 
-    <nav class="print-toc" aria-label="Printed handbook contents">
-      <p class="eyebrow">Contents</p>
-      <h2>Handbook sections</h2>
-      <p class="print-toc-start">
-        <strong>Start here</strong>
-        {{ if gt $homePlaceholderCount 0 }}<span class="print-toc-status">— {{ $homePlaceholderCount }} {{ if eq $homePlaceholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>{{ end }}
-      </p>
-      <ol>
-        {{ range $pages.ByWeight }}
-          {{- $pagePlaceholderCount := len (findRE $placeholderPattern .Content) -}}
-          <li>
-            {{ .LinkTitle }}
-            {{ if gt $pagePlaceholderCount 0 }}<span class="print-toc-status">— {{ $pagePlaceholderCount }} {{ if eq $pagePlaceholderCount 1 }}detail{{ else }}details{{ end }} to complete</span>{{ end }}
-          </li>
-        {{ end }}
-      </ol>
-      <p>In an emergency, begin with “Start here” and Section 1. The maintenance sections preserve unfinished work and review guidance.</p>
-    </nav>
-
-    <section class="print-section" data-source-page="start-here">
+    <section class="print-section print-emergency" data-source-page="start-here">
       <header class="print-section-header">
-        <p class="eyebrow">Start here</p>
+        <p class="eyebrow">Emergency quick guide</p>
         <h2>{{ $home.Title }}</h2>
         {{ with $home.Description }}<p class="lead">{{ . }}</p>{{ end }}
       </header>
       <div class="prose">{{ partial "render-print-content.html" $home }}</div>
-      <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
+      <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last full review {{ site.Params.lastReviewed }}</footer>
     </section>
+
+    <nav class="print-toc" aria-label="Printed handbook contents">
+      <p class="eyebrow">Contents</p>
+      <h2>The rest of the guide</h2>
+      <p class="print-toc-start"><strong>Emergency quick guide — Start here</strong></p>
+
+      <h3>First things to understand</h3>
+      <ol>
+        {{ range $essentialPages.ByWeight }}
+          {{- $pagePlaceholderCount := len (findRE $placeholderPattern .Content) -}}
+          <li value="{{ .Weight }}">{{ .LinkTitle }}{{ if gt $pagePlaceholderCount 0 }}<span class="print-toc-status">— contains highlighted details I still need to finish</span>{{ end }}</li>
+        {{ end }}
+      </ol>
+
+      <h3>How our household works</h3>
+      <ol>
+        {{ range $householdPages.ByWeight }}
+          {{- $pagePlaceholderCount := len (findRE $placeholderPattern .Content) -}}
+          <li value="{{ .Weight }}">{{ .LinkTitle }}{{ if gt $pagePlaceholderCount 0 }}<span class="print-toc-status">— contains highlighted details I still need to finish</span>{{ end }}</li>
+        {{ end }}
+      </ol>
+
+      <h3>Wishes and legacy</h3>
+      <ol>
+        {{ range $legacyPages.ByWeight }}
+          {{- $pagePlaceholderCount := len (findRE $placeholderPattern .Content) -}}
+          <li value="{{ .Weight }}">{{ .LinkTitle }}{{ if gt $pagePlaceholderCount 0 }}<span class="print-toc-status">— contains highlighted details I still need to finish</span>{{ end }}</li>
+        {{ end }}
+      </ol>
+
+      <h3>Useful tools</h3>
+      <ul>
+        {{ range $toolPages.ByWeight }}<li>{{ .LinkTitle }}</li>{{ end }}
+      </ul>
+
+      <h3>About this guide</h3>
+      <ul>
+        {{ range $maintenancePages.ByWeight }}<li>{{ .LinkTitle }}</li>{{ end }}
+      </ul>
+      <p>Begin with the emergency quick guide. Use named section headings for every printed cross-reference. Maintenance pages preserve uncertainty but are not the emergency journey.</p>
+    </nav>
 
     {{ range $pages.ByWeight }}
       <section class="print-section" data-source-page="{{ .File.ContentBaseName }}">
         <header class="print-section-header">
-          <p class="eyebrow">Section {{ .Weight }}</p>
+          {{ if eq .Params.category "reference" }}
+            <p class="eyebrow">{{ if eq .Params.manualPart "essentials" }}First things to understand{{ else if eq .Params.manualPart "household" }}How our household works{{ else }}Wishes and legacy{{ end }} · Part {{ .Weight }}</p>
+          {{ else if eq .Params.category "tool" }}
+            <p class="eyebrow">Something you can use</p>
+          {{ else }}
+            <p class="eyebrow">About and maintain this guide</p>
+          {{ end }}
           <h2>{{ .Title }}</h2>
           {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+          {{ with .Params.lastVerified }}<p class="section-verification{{ if eq . "Not yet verified" }} not-verified{{ end }}"><strong>I last checked this section:</strong> {{ . }}</p>{{ end }}
         </header>
         <div class="prose">{{ partial "render-print-content.html" . }}</div>
-        <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
+        <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last full review {{ site.Params.lastReviewed }}</footer>
       </section>
     {{ end }}
   </main>

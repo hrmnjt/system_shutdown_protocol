@@ -1,58 +1,74 @@
 ---
-title: "TODO and known gaps"
-linkTitle: "TODO & known gaps"
-description: "Unfinished work that should remain visible until it is resolved."
-weight: 9
+title: "Known gaps"
+linkTitle: "Known gaps"
+description: "The complete preparation backlog, grouped by consequence and kept subordinate to family actions."
+weight: 15
 category: "maintenance"
+lastVerified: "Not yet verified"
+gapLevel: "critical"
 ---
 
-## If my family is reading this
+## If you are reading this during an emergency
 
-This page records things I intended to finish or verify. An item is **context about a known gap**, not an instruction or a legally reliable statement. Please show relevant items to the executor or appropriate professional rather than guessing what I meant.
+You do not need to work through this page. It records preparation I still intended to complete, not a list of things I expect you to fix. Use **Start here** and the household-manual pages for what you need now. Where I left something uncertain, please ask the appropriate official, employer, insurer, or qualified adviser rather than guessing what I meant.
 
-## How I maintain this list
+Missing details also remain highlighted where they belong. I keep the preparation work together here so it does not take over the guide I wrote for you.
 
-Remove an item when it is genuinely complete. If work is partly complete, leave the item here and add a short note explaining what exists, where it is, and what remains. Important missing information should also remain visibly highlighted on the relevant page.
+## Critical gaps
 
-## Highest priority
+- [ ] Verify the appropriate Abu Dhabi emergency, police, and official contact routes.
+- [ ] Determine whether valid UAE and Indian wills exist and complete the necessary work.
+- [ ] Verify my wife’s authority during temporary or prolonged incapacity, including medical and financial matters.
+- [ ] Verify my wife’s intended-executor documentation and the applicable UAE and Indian process.
+- [ ] Review nominee and beneficiary arrangements without assuming they determine authority or final ownership.
+- [ ] Verify care, consent, guardianship, travel, and document arrangements for my minor daughter.
+- [ ] Obtain applicable advice about my wife’s and daughter’s UAE residency dependency on my sponsorship.
+- [ ] Establish and record the employer/HR emergency, insurance, benefits, company-property, and sponsorship process.
+- [ ] Configure and test password-manager emergency access without relying on my phone, email, or signed-in devices.
+- [ ] Configure and test encrypted-file access, backup, and recovery without placing secrets in this handbook.
+- [ ] Record and verify immediate medical and health-insurance routes.
+- [ ] Complete time-sensitive religious, Indian cultural, funeral, burial/cremation/repatriation, and organ-donation wishes.
+- [ ] Confirm immediate and backup care for my daughter and dog.
 
-- [ ] Choose the jurisdiction this protocol is written for and obtain local legal guidance.
-- [ ] Add the primary family contact, backup contact, and executor or intended administrator.
-- [ ] Confirm that the will and authority documents are valid, current, and accessible.
-- [ ] Record the locations of important documents and the protected account inventory.
-- [ ] Configure and test password-manager emergency access without putting secrets in this site.
+## Important gaps
 
-## Complete the family guide
+- [ ] Complete the household-at-a-glance page, including what I handle, what you handle, what we share, and the five most important dependencies.
+- [ ] Complete the daily, monthly, annual, and event-driven household calendar.
+- [ ] For each operating-manual section, record normal operation, ownership, cadence, protected records, helpers, what must keep running, and what can wait.
+- [ ] Write the personal messages, family stories, traditions, and meaning behind possessions in “What I want to leave with you.”
+- [ ] Establish appropriate UAE legal advice or a verified official route.
+- [ ] Establish appropriate Indian legal advice or a verified official route.
+- [ ] Establish financial and tax advice for UAE, Indian, and cross-border matters.
+- [ ] Complete the canonical contact directory and verify every role and fallback.
+- [ ] Complete the identity, authority, and important-document index.
+- [ ] Complete the UAE and Indian financial, asset, liability, insurance, and recurring-obligation overview.
+- [ ] Complete home, vehicle, utilities, and recurring-responsibility information.
+- [ ] Complete device, email, cloud, hosting, source-code, social-account, and digital-outcome information.
+- [ ] Complete wider-family, daughter, employer, and public-communication guidance.
+- [ ] Record where each current hosted, printed, and portable copy is held.
+- [ ] Decide whether the thumb drive relies on physical security or recoverable encryption.
+- [ ] Decide and implement hosted authentication, recovery, backups, private caching, security headers, monitoring, payment continuity, and revocation.
 
-- [ ] Replace every highlighted placeholder with accurate information or remove it.
-- [ ] Complete the first-24-hours and first-week contact details.
-- [ ] Complete the legal, financial, insurance, property, and liability overview.
-- [ ] Document devices, digital services, legacy contacts, and intended outcomes.
-- [ ] Document care responsibilities, household routines, pets, and recurring commitments.
-- [ ] Record personal, funeral, cultural, possession, archive, and creative-work wishes.
+## Usability and release gaps
 
-## Prepare the three distribution formats
+- [ ] Ask my wife to complete the private phone scenarios without coaching.
+- [ ] Revise labels and routes based on where they hesitate or take a wrong turn.
+- [ ] Verify the emergency quick guide in phone and laptop layouts with JavaScript unavailable.
+- [ ] Verify local search without networking and confirm navigation works without it.
+- [ ] Inspect the complete handbook in print preview and physically spot-check it.
+- [ ] Generate and test the portable copy from the actual thumb drive while offline.
+- [ ] Complete the full review and set an accurate global review date.
+- [ ] Replace or clearly mark all stale copies.
 
-- [ ] Finalize the printed locker-copy process and record exactly where the current printout is kept.
-- [ ] Decide how the hosted copy will be deployed, authenticated, encrypted in transit, backed up, and revoked.
-- [ ] Choose a hosted access-recovery method that a trusted family member can use without access to my everyday devices.
-- [ ] Configure hosted security headers, private caching, monitoring, and protection from public previews or storage buckets.
-- [ ] Test the hosted copy from a fresh phone and laptop session, including denied access, logout, and recovery.
-- [ ] Decide whether the thumb drive will rely on locker security or use encryption with a separately recoverable password.
-- [ ] Generate and test the portable copy from the actual thumb drive on a family MacBook while offline.
-- [ ] Define how version numbers, review dates, and stale copies will be managed across print, hosted, and portable formats.
+## Optional and future review triggers
 
-## Make the protocol usable
+- [ ] In a later handbook version, design and test the separate route for the grave situation in which my wife is also unavailable; choose and confirm an ordered backup coordinator chain before adding it.
+- [ ] Test that later route with a less-informed immediate family member before describing it as ready.
+- [ ] At each review, confirm whether I have acquired business ownership, directorships, partnerships, freelance work, employees, or related obligations; add a business-continuity section if needed.
+- [ ] At each review, confirm whether frequent travel or another country has become materially relevant; add a fuller travel plan if needed.
+- [ ] Review after changes to family, dependants, pets, health, employment, sponsorship, housing, insurance, assets, liabilities, devices, phone, email, or jurisdiction.
+- [ ] Add future improvements with the reason, current state, safe fallback, and work remaining.
 
-- [ ] Ask a trusted nontechnical family member to find key information without help.
-- [ ] Verify the full handbook in print preview and print a current copy.
-- [ ] Open the built site on another device while disconnected from the internet.
-- [ ] Store the complete offline site and printed copy in agreed locations.
-- [ ] Tell at least one trusted person where the protocol is and how to open it.
-- [ ] Complete the formal review and set an accurate “Last reviewed” date.
+## How to maintain this page
 
-## Additional plans and notes
-
-Add future work here with enough detail that it remains understandable without me.
-
-- [ ] Describe the planned improvement, why it matters, and any work already completed.
+Remove an item only when it is genuinely complete and its canonical section has been updated. If work is partial, keep the item and add what exists, the safe fallback, and what remains. Classify new gaps by consequence rather than by effort.

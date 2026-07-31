@@ -1,22 +1,34 @@
 {{ define "main" }}
   <article>
     <header class="page-header">
-      <p class="eyebrow">Section {{ .Weight }}</p>
+      {{ if eq .Params.category "reference" }}
+        <p class="eyebrow">
+          {{ if eq .Params.manualPart "essentials" }}First things to understand{{ else if eq .Params.manualPart "household" }}How our household works{{ else }}Wishes and legacy{{ end }}
+          · Part {{ .Weight }}
+        </p>
+      {{ else if eq .Params.category "tool" }}
+        <p class="eyebrow">Something you can use</p>
+      {{ else }}
+        <p class="eyebrow">About and maintain this guide</p>
+      {{ end }}
       <h1>{{ .Title }}</h1>
       {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+      {{ with .Params.lastVerified }}
+        <p class="section-verification{{ if eq . "Not yet verified" }} not-verified{{ end }}"><strong>I last checked this section:</strong> {{ . }}</p>
+      {{ end }}
       {{ partial "completion-status.html" . }}
     </header>
 
     {{- $openTasks := findRE `(?m)^\s*[-*+] \[ \]` .RawContent -}}
-    {{ if and (ne .Params.category "maintenance") (gt (len $openTasks) 0) }}
-      <p class="checklist-note"><strong>Checklist:</strong> use these boxes on paper; progress is not saved in this copy.</p>
+    {{ if gt (len $openTasks) 0 }}
+      <p class="checklist-note"><strong>This is preparation work:</strong> the website does not save these boxes. I update them when I review the guide.</p>
     {{ end }}
 
     <div class="prose">
       {{ partial "render-content.html" . }}
     </div>
 
-    <nav class="page-navigation" aria-label="Previous and next sections">
+    <nav class="page-navigation" aria-label="Previous and next parts of the guide">
       {{ with .NextInSection }}<a href="{{ .RelPermalink }}">← {{ .LinkTitle }}</a>{{ end }}
       {{ with .PrevInSection }}<a class="next" href="{{ .RelPermalink }}">{{ .LinkTitle }} →</a>{{ end }}
     </nav>

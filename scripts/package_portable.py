@@ -69,14 +69,16 @@ Classification: {params.get('classification', 'Private')}
 ON A MACBOOK
 1. Keep this entire folder together on the thumb drive.
 2. Double-click “START HERE.html”.
-3. It should open in the default browser without internet access.
-4. If macOS asks which application to use, choose Safari, Chrome, or Firefox.
+3. Begin with the emergency quick guide and choose the situation that applies.
+4. It should open in the default browser without internet access.
+5. If macOS asks which application to use, choose Safari, Chrome, or Firefox.
 
 IMPORTANT
-- Do not move only the START HERE file; it relies on the nearby pages, CSS, and JavaScript.
+- If someone may be in immediate danger, contact the appropriate local emergency service first.
+- Do not move only the START HERE file; it relies on nearby pages, CSS, and JavaScript.
 - Compare the version and “Last reviewed” value with any printed or hosted copy.
-- This folder is not encrypted. Keep the thumb drive physically secure.
-- The handbook should point to protected credentials; it should not contain passwords or recovery keys.
+- These files are not independently encrypted. Protection depends on the thumb drive and its physical storage.
+- The handbook gives directions to protected information; it must not contain passwords or recovery keys.
 """
     (destination / "README.txt").write_text(instructions, encoding="utf-8")
     validate_entry_point(destination / "START HERE.html")

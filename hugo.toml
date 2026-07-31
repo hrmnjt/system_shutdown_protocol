@@ -9,8 +9,9 @@ uglyURLs = true
 disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
 
 [params]
-  description = "A practical guide for my family"
-  protocolVersion = "0.1 draft"
+  description = "Our household continuity manual"
+  protocolVersion = "0.4 draft"
+  protocolStatus = "Draft — I still need to fill in important details"
   classification = "Private family document"
   lastReviewed = "Not yet reviewed"
 

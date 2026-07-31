@@ -1,11 +1,13 @@
 # Research and design inspirations
 
-These references inform the protocol’s structure and theme. They are intentionally not linked from the generated handbook because the handbook must remain usable offline. Legal and administrative guidance is jurisdiction-specific; examples from one country are not instructions for another.
+These references inform the protocol’s structure and theme. They are intentionally not linked from the generated handbook because the handbook must remain usable offline. Legal and administrative guidance is jurisdiction-specific; examples from one country are not instructions for an Indian family living in Abu Dhabi. UAE and Indian medical, residency, sponsorship, guardianship, employment, cultural, and estate matters require applicable official or qualified guidance.
 
-## Bereavement and practical administration
+The approved product model is a household continuity manual with a one-to-two-page scenario-based emergency entry point. The main body explains normal household operation, and a separate part preserves wishes, memory, and legacy. Bereavement references inform only the death route; the manual also covers hospitalization, inability to communicate or locate, and prolonged incapacity.
+
+## Emergency, incapacity, bereavement, and practical administration
 
 - [GOV.UK — What to do when someone dies: step by step](https://www.gov.uk/when-someone-dies)  
-  Inspiration for ordering work by time and dependency rather than presenting one overwhelming inventory.
+  Inspiration for routing a death scenario through safe dependencies rather than presenting one overwhelming inventory. Its jurisdiction-specific steps are not copied as UAE or Indian instructions.
 - [Consumer Financial Protection Bureau — Guides for managing someone else’s money](https://www.consumerfinance.gov/consumer-tools/managing-someone-elses-money/)  
   Useful framing for authority, record keeping, fiduciary responsibility, and avoiding casual financial action.
 - [Ready.gov — Financial Preparedness](https://www.ready.gov/financial-preparedness)  
@@ -24,6 +26,9 @@ Provider features and procedures change. The protocol should describe the intend
 
 ## Content and interface design
 
+- [In Case You Get Hit by a Bus — publisher overview](https://www.hachettebookgroup.com/titles/abby-schneiderman/in-case-you-get-hit-by-a-bus/9781523510474/)
+
+  Inspiration for separating urgent essentials, the practical operating manual for home and life, and personal memory or legacy. This handbook adopts that layered model without copying US-specific legal assumptions or placing credentials in the manual.
 - [GOV.UK Design System — Warning text](https://design-system.service.gov.uk/components/warning-text/)  
   Inspiration for reserving strong warnings for information users must notice.
 - [GOV.UK Design System — Task list](https://design-system.service.gov.uk/components/task-list/)  
@@ -39,10 +44,16 @@ Provider features and procedures change. The protocol should describe the intend
 
 ## Principles adopted here
 
-- Put the next safe action before background explanation.
-- Separate immediate family instructions from owner maintenance work.
-- Make incompleteness visible in text and symbols, not colour alone.
-- Do not imply that a generic checklist grants legal authority.
-- Keep credentials outside the handbook.
-- Support direct file opening, keyboard navigation, small screens, dark mode, forced colours, reduced motion, and paper.
-- Treat printouts as uncontrolled copies that can become stale.
+- Put immediate danger, the applicable scenario, and the next safe action before background explanation.
+- Use a one-to-two-page emergency route followed by a structured household operating manual and a separate wishes/memory/legacy part.
+- Record not only what exists, but how the household normally works, who handles it, when it happens, what depends on it, what must continue, and what can wait.
+- Write the current guide directly from the owner to his wife, in a warm and recognizable voice. Design the grave case in which she is unavailable as a separate later edition rather than weakening the wife-first experience.
+- Use lists for actions and reference facts, but introduce and connect them with the natural language of a thoughtful letter.
+- Separate wife-facing actions and reference information from low-prominence owner maintenance work.
+- Keep changeable facts in one canonical place and use explicit cross-references on screen and paper.
+- Make incompleteness visible in text and symbols, not colour alone; classify gaps by consequence rather than a completion percentage.
+- Distinguish coordination, intended roles, documented authority, and verified legal authority.
+- Keep credentials and sensitive inventories outside the handbook; provide tested directions to protected encrypted files and a password manager.
+- Design for authenticated phone use first, print second, and portable offline use third while releasing identical content.
+- Support direct file opening, optional local search, keyboard navigation, small screens, dark mode, forced colours, reduced motion, JavaScript failure, and paper.
+- Treat hosted infrastructure, printouts, and removable media as different security risks; printed and portable copies can become stale.

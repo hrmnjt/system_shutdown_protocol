@@ -99,14 +99,22 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
 }
 .header-actions { display: flex; align-items: center; gap: 0.5rem; }
 
-.print-link {
+.print-link,
+.emergency-link {
   flex: none;
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
   padding: 0.4rem 0.7rem;
   border: 1px solid var(--accent);
   border-radius: 0.3rem;
   font-size: 0.85rem;
   font-weight: 700;
   text-decoration: none;
+}
+.emergency-link {
+  border-color: var(--important);
+  color: var(--important);
 }
 
 .page-shell {
@@ -122,7 +130,11 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
   align-self: start;
   position: sticky;
   top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding-right: 0.35rem;
   font-size: 0.9rem;
+  scrollbar-gutter: stable;
 }
 
 .site-nav summary {
@@ -148,6 +160,8 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
 .nav-current { display: none; color: var(--muted); font-size: 0.78rem; font-weight: 600; }
 
 .nav-group { margin-top: 1rem; }
+.nav-group-emergency { margin-top: 0.65rem; }
+.nav-group-maintenance { padding-top: 0.8rem; border-top: 1px solid var(--border); }
 .nav-heading {
   margin: 0;
   color: var(--muted);
@@ -177,16 +191,58 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
   text-decoration-thickness: 2px;
 }
 
+.site-search {
+  margin: 1rem 0;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.site-search label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+.site-search input {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.86rem;
+}
+.search-privacy {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.search-results { margin-top: 0.55rem; }
+.search-results p { margin: 0; color: var(--muted); font-size: 0.78rem; }
+.search-results ul { margin: 0; padding: 0; list-style: none; }
+.search-results li + li { margin-top: 0.45rem; }
+.search-result {
+  display: block;
+  padding: 0.35rem 0;
+  color: var(--text);
+  line-height: 1.3;
+}
+.search-result strong { display: block; color: var(--accent); font-size: 0.86rem; }
+.search-result span { display: block; margin-top: 0.1rem; color: var(--muted); font-size: 0.72rem; }
+
 .review-date {
   display: grid;
   gap: 0.15rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--border);
   color: var(--muted);
 }
+.review-date strong { margin-top: 0.35rem; }
 .review-date span { color: var(--text); }
-.not-reviewed { color: var(--warning) !important; font-weight: 800; }
-.review-date a { width: fit-content; font-size: 0.8rem; }
+.protocol-status { color: var(--warning) !important; font-weight: 750; }
+.not-reviewed, .not-verified { color: var(--warning) !important; font-weight: 800; }
+.review-date a { width: fit-content; margin-top: 0.2rem; font-size: 0.8rem; }
 
 .content { min-width: 0; max-width: 48rem; }
 
@@ -215,15 +271,23 @@ a:focus-visible, summary:focus-visible, button:focus-visible, .table-scroll:focu
   font-size: 1.2rem;
 }
 
+.section-verification {
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 .completion-status {
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem 0.5rem;
-  margin: 0.75rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 700;
 }
+.gap-critical { color: var(--important); }
+.gap-important { color: var(--warning); }
 .completion-status span + span::before {
   margin-right: 0.5rem;
   content: "·";
@@ -272,6 +336,14 @@ mark.placeholder {
 }
 
 .prose { max-width: 68ch; }
+.emergency-prose > h2 {
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+.emergency-prose > h2:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
 .prose h2 {
   margin: 2.6rem 0 0.75rem;
   font-size: 1.55rem;
@@ -356,16 +428,50 @@ mark.placeholder {
 }
 .card-number { color: var(--accent); font-size: 0.75rem; font-weight: 800; }
 .card-description { color: var(--muted); font-size: 0.9rem; }
-.card-status {
-  width: fit-content;
+.card-meta {
+  display: grid;
+  gap: 0.15rem;
   margin-top: auto;
   color: var(--muted);
   font-size: 0.72rem;
+}
+.card-status {
+  width: fit-content;
   font-weight: 750;
 }
 
-.maintenance-section { margin-top: 3rem; }
-.maintenance-section > p { color: var(--muted); }
+.manual-introduction {
+  margin-top: 3.5rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+.manual-introduction h2 { margin: 0; }
+.manual-introduction > :last-child { margin-bottom: 0; color: var(--muted); }
+.reference-section { margin-top: 3.5rem; }
+.reference-section > h2 { margin-top: 0; }
+.manual-part > p { max-width: 62ch; color: var(--muted); }
+.tools-section, .maintenance-section { margin-top: 3rem; }
+.compact-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+.compact-card {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.compact-card span { color: var(--muted); font-size: 0.82rem; }
+.maintenance-section {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.maintenance-section > p, .maintenance-links span { color: var(--muted); }
+.maintenance-links { padding-left: 1.25rem; }
+.maintenance-links li { margin: 0.4rem 0; }
 
 .page-navigation {
   display: flex;
@@ -456,9 +562,9 @@ mark.placeholder {
   .header-inner { align-items: flex-start; }
   .site-subtitle { display: block; margin: 0.2rem 0 0; }
   .copy-metadata { margin-top: 0.45rem; }
-  .print-link { min-height: 2.65rem; display: inline-flex; align-items: center; margin-top: 0.1rem; }
+  .print-link, .emergency-link { min-height: 2.65rem; margin-top: 0.1rem; }
   .page-shell { display: block; padding: 1rem 1rem 3rem; }
-  .site-nav { position: static; margin-bottom: 2rem; }
+  .site-nav { position: static; max-height: none; overflow: visible; margin-bottom: 2rem; padding-right: 0; }
   .site-nav details {
     padding: 0 0.75rem;
     border: 1px solid var(--border);
@@ -468,10 +574,12 @@ mark.placeholder {
   .site-nav details[open] { padding-bottom: 0.35rem; }
   .nav-current { display: inline; max-width: 55%; overflow: hidden; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
   .site-nav li > a { min-height: 2.6rem; align-items: center; }
+  .site-search { margin: 0.65rem 0.75rem; }
   .review-date { grid-template-columns: auto 1fr; gap: 0.1rem 0.5rem; margin-top: 0.65rem; padding: 0.65rem 0.75rem 0; font-size: 0.78rem; }
+  .review-date strong { margin-top: 0; }
   .review-date a { grid-column: 2; }
   .table-hint { display: block; margin-bottom: 0.35rem; color: var(--muted); font-size: 0.82rem; }
-  .card-grid { grid-template-columns: 1fr; }
+  .card-grid, .compact-card-grid { grid-template-columns: 1fr; }
   .card { min-height: 0; }
   .print-toolbar { border-right: 0; border-left: 0; }
   .print-document { margin: 0; padding: 2rem 1.25rem; border: 0; }
@@ -481,7 +589,8 @@ mark.placeholder {
 
 @media (max-width: 520px) {
   .header-inner { flex-wrap: wrap; gap: 0.75rem; padding: 0.85rem 1rem; }
-  .header-actions { display: none; }
+  .header-actions { display: flex; }
+  .header-actions .print-link { display: none; }
   .footer-print-link { display: block; }
   .page-header h1 { font-size: clamp(2rem, 12vw, 2.8rem); }
   .print-toolbar { align-items: stretch; flex-direction: column; }
@@ -541,7 +650,7 @@ mark.placeholder {
   .prose th { background: #eee !important; print-color-adjust: exact; }
   .print-document { max-width: none; margin: 0; padding: 0; border: 0; background: white; }
   .print-cover { min-height: 0; padding-top: 12vh; break-after: page; }
-  .print-toc { margin: 0; padding: 0; border: 0; break-after: page; }
+  .print-toc { margin: 0; padding: 0; border: 0; break-before: page; break-after: page; }
   .print-toc ol { columns: 2; }
   .print-section { padding-top: 0; border-top: 0; break-before: page; }
   .print-section + .print-section { margin-top: 0; }

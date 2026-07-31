@@ -1,6 +1,14 @@
 {{- $navPages := where site.RegularPages "Params.nav" "ne" false -}}
-{{- $guidePages := where $navPages "Params.category" "guide" -}}
+{{- $referencePages := where $navPages "Params.category" "reference" -}}
+{{- $essentialPages := where $referencePages "Params.manualPart" "essentials" -}}
+{{- $householdPages := where $referencePages "Params.manualPart" "household" -}}
+{{- $legacyPages := where $referencePages "Params.manualPart" "legacy" -}}
+{{- $toolPages := where $navPages "Params.category" "tool" -}}
 {{- $maintenancePages := where $navPages "Params.category" "maintenance" -}}
+{{- $searchPages := slice (dict "title" site.Home.Title "linkTitle" site.Home.Title "description" site.Home.Description "permalink" (strings.TrimPrefix "/" site.Home.RelPermalink) "content" site.Home.Plain) -}}
+{{- range $navPages.ByWeight -}}
+  {{- $searchPages = $searchPages | append (dict "title" .Title "linkTitle" .LinkTitle "description" .Description "permalink" (strings.TrimPrefix "/" .RelPermalink) "content" .Plain) -}}
+{{- end -}}
 <!doctype html>
 <html lang="{{ site.Language.Lang | default "en" }}">
 <head>
@@ -29,8 +37,9 @@
         </span>
       </div>
       <div class="header-actions">
+        <a class="emergency-link" href="{{ "index.html" | relURL }}">Emergency guide</a>
         {{ with site.GetPage "/print" }}
-          <a class="print-link" href="{{ .RelPermalink }}">Print full handbook</a>
+          <a class="print-link" href="{{ .RelPermalink }}">Print handbook</a>
         {{ end }}
       </div>
     </div>
@@ -40,34 +49,65 @@
     <nav class="site-nav" aria-label="Protocol sections">
       <details>
         <summary><span>Contents</span><span class="nav-current">{{ if .IsHome }}Start here{{ else }}{{ .LinkTitle }}{{ end }}</span></summary>
-        <div class="nav-group">
-          <p class="nav-heading">Family guide</p>
+        <div class="nav-group nav-group-emergency">
+          <p class="nav-heading">Emergency</p>
           <ul class="nav-list">
             <li><a href="{{ "index.html" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>Start here</a></li>
-            {{ range $guidePages.ByWeight }}
-              <li>
-                <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>
-                  <span>{{ .Weight }}. {{ .LinkTitle }}</span>
-                </a>
-              </li>
+          </ul>
+        </div>
+        <div class="nav-group">
+          <p class="nav-heading">First things to understand</p>
+          <ul class="nav-list">
+            {{ range $essentialPages.ByWeight }}
+              <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}><span>{{ .Weight }}. {{ .LinkTitle }}</span></a></li>
             {{ end }}
           </ul>
         </div>
         <div class="nav-group">
-          <p class="nav-heading">Keep it current</p>
+          <p class="nav-heading">How our household works</p>
+          <ul class="nav-list">
+            {{ range $householdPages.ByWeight }}
+              <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}><span>{{ .Weight }}. {{ .LinkTitle }}</span></a></li>
+            {{ end }}
+          </ul>
+        </div>
+        <div class="nav-group">
+          <p class="nav-heading">Wishes and legacy</p>
+          <ul class="nav-list">
+            {{ range $legacyPages.ByWeight }}
+              <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}><span>{{ .Weight }}. {{ .LinkTitle }}</span></a></li>
+            {{ end }}
+          </ul>
+        </div>
+        <div class="nav-group">
+          <p class="nav-heading">Useful tools</p>
+          <ul class="nav-list">
+            {{ range $toolPages.ByWeight }}
+              <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+            {{ end }}
+          </ul>
+        </div>
+        <div class="nav-group nav-group-maintenance">
+          <p class="nav-heading">About this guide</p>
           <ul class="nav-list">
             {{ range $maintenancePages.ByWeight }}
-              <li>
-                <a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>
-                  <span>{{ .Weight }}. {{ .LinkTitle }}</span>
-                </a>
-              </li>
+              <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
             {{ end }}
           </ul>
         </div>
       </details>
+
+      <div class="site-search" hidden>
+        <label for="site-search-input">Search this guide</label>
+        <input id="site-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="People, documents, insurance…">
+        <p class="search-privacy">Nothing you search for is sent anywhere.</p>
+        <div id="search-results" class="search-results" aria-live="polite"></div>
+      </div>
+
       <div class="review-date">
-        <strong>Last reviewed</strong>
+        <strong>About this copy</strong>
+        <span class="protocol-status">{{ site.Params.protocolStatus }}</span>
+        <strong>I last fully reviewed it</strong>
         <span{{ if eq site.Params.lastReviewed "Not yet reviewed" }} class="not-reviewed"{{ end }}>{{ site.Params.lastReviewed }}</span>
         {{ with site.GetPage "/preparedness" }}<a href="{{ .RelPermalink }}#how-to-review">What this means</a>{{ end }}
       </div>
@@ -79,8 +119,9 @@
   </div>
 
   <footer class="site-footer">
-    <p><strong>Privacy:</strong> this handbook is not encrypted. Keep it secure and do not add passwords or recovery keys.</p>
+    <p><strong>Please keep this private.</strong> It tells you how to reach protected information, but it does not contain the passwords or prove that someone has legal authority.</p>
     {{ with site.GetPage "/print" }}<p class="footer-print-link"><a href="{{ .RelPermalink }}">Print full handbook</a></p>{{ end }}
   </footer>
+  <script id="search-index" type="application/json">{{ $searchPages | jsonify | safeJS }}</script>
 </body>
 </html>
