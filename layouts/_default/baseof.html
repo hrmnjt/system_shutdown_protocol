@@ -15,20 +15,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="{{ .Description | default site.Params.description }}">
+  <meta name="robots" content="noindex, nofollow, noarchive">
   <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ site.Title }}</title>
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <script src="{{ "js/site.js" | relURL }}" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header">
     <div class="header-inner">
-      <div>
-        <a class="site-title" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+      <div class="brand">
+        <a class="site-title" href="{{ "index.html" | relURL }}">{{ site.Title }}</a>
         <span class="site-subtitle">{{ site.Params.description }}</span>
+        <span class="copy-metadata">
+          <span id="copy-mode">Handbook copy</span>
+          <span aria-hidden="true">·</span>
+          <span>Version {{ site.Params.protocolVersion }}</span>
+          <span aria-hidden="true">·</span>
+          <span>{{ site.Params.classification }}</span>
+        </span>
       </div>
-      {{ with site.GetPage "/print" }}
-        <a class="print-link" href="{{ .RelPermalink }}">Print full handbook</a>
-      {{ end }}
+      <div class="header-actions">
+        {{ with site.GetPage "/print" }}
+          <a class="print-link" href="{{ .RelPermalink }}">Print full handbook</a>
+        {{ end }}
+      </div>
     </div>
   </header>
 
@@ -45,11 +56,11 @@
   <div class="page-shell">
     <nav class="site-nav" aria-label="Protocol sections">
       <details open>
-        <summary>Contents</summary>
+        <summary><span>Contents</span><span class="nav-current">{{ if .IsHome }}Start here{{ else }}{{ .LinkTitle }}{{ end }}</span></summary>
         <div class="nav-group">
           <p class="nav-heading">Family guide</p>
           <ol>
-            <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>Start here</a></li>
+            <li><a href="{{ "index.html" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>Start here</a></li>
             {{ range $guidePages.ByWeight }}
               {{ $hasPlaceholders := gt (len (findRE $placeholderPattern .RawContent)) 0 }}
               <li>

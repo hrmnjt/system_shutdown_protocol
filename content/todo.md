@@ -31,6 +31,17 @@ Remove an item when it is genuinely complete. If work is partly complete, leave 
 - [ ] Document care responsibilities, household routines, pets, and recurring commitments.
 - [ ] Record personal, funeral, cultural, possession, archive, and creative-work wishes.
 
+## Prepare the three distribution formats
+
+- [ ] Finalize the printed locker-copy process and record exactly where the current printout is kept.
+- [ ] Decide how the hosted copy will be deployed, authenticated, encrypted in transit, backed up, and revoked.
+- [ ] Choose a hosted access-recovery method that a trusted family member can use without access to my everyday devices.
+- [ ] Configure hosted security headers, private caching, monitoring, and protection from public previews or storage buckets.
+- [ ] Test the hosted copy from a fresh phone and laptop session, including denied access, logout, and recovery.
+- [ ] Decide whether the thumb drive will rely on locker security or use encryption with a separately recoverable password.
+- [ ] Generate and test the portable copy from the actual thumb drive on a family MacBook while offline.
+- [ ] Define how version numbers, review dates, and stale copies will be managed across print, hosted, and portable formats.
+
 ## Make the protocol usable
 
 - [ ] Ask a trusted nontechnical family member to find key information without help.

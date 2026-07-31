@@ -27,6 +27,7 @@ class Document(HTMLParser):
         self.main_count = 0
         self.has_lang = False
         self.has_viewport = False
+        self.has_robots_policy = False
         self.placeholder_count = 0
         self.placeholder_alert_count = 0
         self.source_pages: list[str] = []
@@ -41,6 +42,9 @@ class Document(HTMLParser):
             self.title_depth += 1
         elif tag == "meta" and attrs.get("name", "").lower() == "viewport":
             self.has_viewport = bool(attrs.get("content", "").strip())
+        elif tag == "meta" and attrs.get("name", "").lower() == "robots":
+            policy = attrs.get("content", "").lower()
+            self.has_robots_policy = "noindex" in policy and "noarchive" in policy
         elif tag == "h1":
             self.h1_count += 1
         elif tag == "main":
@@ -89,6 +93,8 @@ class Document(HTMLParser):
             self.errors.append("html element is missing a language")
         if not self.has_viewport:
             self.errors.append("missing viewport metadata")
+        if not self.has_robots_policy:
+            self.errors.append("missing noindex/noarchive robots policy")
         if self.h1_count != 1:
             self.errors.append(f"expected exactly one h1, found {self.h1_count}")
         if self.main_count != 1:
@@ -108,9 +114,11 @@ def resolve_local(source: Path, value: str) -> tuple[Path | None, str]:
         raise ValueError(f"external URL is not offline-safe: {value}")
     if parsed.path.startswith("/"):
         raise ValueError(f"root-relative URL is not file-safe: {value}")
+    if parsed.path and parsed.path.endswith("/"):
+        raise ValueError(f"directory URL is ambiguous when opened from a thumb drive: {value}")
     target = (source.parent / unquote(parsed.path or source.name)).resolve()
     if target.is_dir():
-        target /= "index.html"
+        raise ValueError(f"directory URL is ambiguous when opened from a thumb drive: {value}")
     return target, unquote(parsed.fragment)
 
 

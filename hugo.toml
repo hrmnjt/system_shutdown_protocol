@@ -10,6 +10,8 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
 
 [params]
   description = "A practical guide for my family"
+  protocolVersion = "0.1 draft"
+  classification = "Private family document"
   lastReviewed = "Not yet reviewed"
 
 [markup]

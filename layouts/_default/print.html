@@ -13,6 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="Printable {{ site.Title }} handbook">
+  <meta name="robots" content="noindex, nofollow, noarchive">
   <title>Printable handbook · {{ site.Title }}</title>
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
   <script src="{{ "js/print.js" | relURL }}" defer></script>
@@ -20,18 +21,21 @@
 <body class="print-handbook">
   <a class="skip-link" href="#print-content">Skip to handbook</a>
   <div class="print-toolbar">
-    <a href="{{ "/" | relURL }}">← Return to handbook</a>
+    <a href="{{ "index.html" | relURL }}">← Return to handbook</a>
     <button id="print-button" type="button">Open print dialog</button>
   </div>
 
   <main id="print-content" class="print-document">
     <header class="print-cover">
-      <p class="eyebrow">Offline family guide</p>
+      <p class="eyebrow">Printable locker copy</p>
       <h1>{{ site.Title }}</h1>
       <p class="lead">{{ site.Params.description }}</p>
+      <p class="document-classification">{{ site.Params.classification }}</p>
       <dl class="print-metadata">
+        <div><dt>Version</dt><dd>{{ site.Params.protocolVersion }}</dd></div>
         <div><dt>Last reviewed</dt><dd{{ if eq site.Params.lastReviewed "Not yet reviewed" }} class="not-reviewed"{{ end }}>{{ site.Params.lastReviewed }}</dd></div>
-        <div><dt>Printed</dt><dd>This copy is uncontrolled; check that it is current.</dd></div>
+        <div><dt>Built for printing</dt><dd>{{ now.Format "2 January 2006" }}</dd></div>
+        <div><dt>Copy status</dt><dd>Uncontrolled after printing; compare its version and review date with newer copies.</dd></div>
       </dl>
       {{ if gt $unfinishedCount 0 }}
         <div class="placeholder-alert" role="note">
@@ -42,7 +46,18 @@
           </div>
         </div>
       {{ end }}
+      <p class="print-privacy"><strong>Private:</strong> keep this copy with the valuables and documents it references. It does not contain passwords or recovery keys.</p>
     </header>
+
+    <nav class="print-toc" aria-label="Printed handbook contents">
+      <p class="eyebrow">Contents</p>
+      <h2>Handbook sections</h2>
+      <ol>
+        <li>Start here</li>
+        {{ range $pages.ByWeight }}<li><span>{{ .Weight }}. {{ .LinkTitle }}</span></li>{{ end }}
+      </ol>
+      <p>In an emergency, begin with “Start here” and Section 1. The maintenance sections preserve unfinished work and review guidance.</p>
+    </nav>
 
     <section class="print-section" data-source-page="start-here">
       <header class="print-section-header">
@@ -52,6 +67,7 @@
       </header>
       {{ partial "placeholder-alert.html" $home }}
       <div class="prose">{{ partial "render-content.html" $home }}</div>
+      <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
     </section>
 
     {{ range $pages.ByWeight }}
@@ -63,6 +79,7 @@
         </header>
         {{ partial "placeholder-alert.html" . }}
         <div class="prose">{{ partial "render-content.html" . }}</div>
+        <footer class="print-section-footer">{{ site.Title }} · Version {{ site.Params.protocolVersion }} · Last reviewed {{ site.Params.lastReviewed }}</footer>
       </section>
     {{ end }}
   </main>

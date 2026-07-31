@@ -28,6 +28,28 @@ The development server is only for editing—the final `dist/` folder remains fu
 
 The interface uses the Gruvbox Light palette by default and automatically switches to Gruvbox Dark when the operating system requests dark mode. Print output remains high-contrast and ink-conscious rather than reproducing the screen background colours.
 
+## Distribution formats
+
+All formats should carry the same `params.protocolVersion` and `params.lastReviewed` values from [`hugo.toml`](hugo.toml). Treat print, hosted, and portable as **formats of one version**, not as versions 1, 2, and 3; this makes it possible to identify stale copies.
+
+### Printed locker copy
+
+Open `dist/print.html`, use **Open print dialog**, inspect every page in print preview, and print the complete handbook. Its cover includes the protocol version, review date, print-build date, privacy classification, and stale-copy warning.
+
+### Password-protected hosted copy
+
+Deploy the complete `dist/` directory behind authentication and HTTPS. The generated pages include `noindex`, `nofollow`, and `noarchive`, but these directives are not security controls. Authentication must happen at the web server, identity proxy, or hosting layer—not in client-side JavaScript.
+
+### Portable thumb-drive copy
+
+```sh
+make portable
+```
+
+This validates the build and creates a versioned folder under `release/` containing `START HERE.html` and `README.txt`. Copy that entire folder to the thumb drive. On a MacBook, double-click `START HERE.html`; it uses only nearby files and does not need a server or network connection.
+
+See [`docs/distribution.md`](docs/distribution.md) for the release and security model.
+
 ## Edit content
 
 Family-facing pages live in [`content/`](content/). Page order and displayed section numbers are controlled by the sequential `weight` field in each file’s front matter.
@@ -56,17 +78,19 @@ Then rebuild, retest, and replace distributed copies.
 
 ## Print
 
-Use **Print full handbook** in the site header to open `dist/print.html`. It combines the start page and every numbered section into one print-optimized document. Inspect print preview before distributing it; browsers and printers can paginate tables differently.
+Use **Print full handbook** in the site header to open `dist/print.html`. It combines the cover, contents, start page, and every numbered section into one print-optimized document. Inspect print preview before distributing it; browsers and printers can paginate tables differently.
 
 ## Before distributing
 
 1. Resolve highlighted placeholders or leave a clear corresponding explanation on the TODO page.
 2. Complete the review checklist and set an accurate review date.
 3. Run `make check`.
-4. Open `dist/index.html` on another device with networking disabled.
-5. Inspect `dist/print.html` in print preview and print the urgent sections or full handbook.
-6. Give a trusted nontechnical person a short findability test.
-7. Replace stale offline and printed copies.
+4. Open `dist/index.html` on a phone-sized viewport and a laptop-sized viewport.
+5. Run `make portable` and test `START HERE.html` from removable storage with networking disabled.
+6. Inspect `dist/print.html` in print preview and print the urgent sections or full handbook.
+7. Test the hosted authentication and recovery path from outside your normal signed-in devices.
+8. Give a trusted nontechnical person a short findability test.
+9. Replace stale offline and printed copies.
 
 ## Security
 
