@@ -280,7 +280,7 @@ a:focus-visible, summary:focus-visible, button:focus-visible {
   font-weight: 900;
   line-height: 1;
 }
-.placeholder-alert strong, .placeholder-alert span { display: block; }
+.placeholder-alert strong, .placeholder-alert div > span { display: block; }
 .placeholder-alert div > span { margin-top: 0.1rem; font-size: 0.9rem; }
 
 .task-summary {
