@@ -1,0 +1,9 @@
+# Hugo build output and generated resources
+/dist/
+/resources/_gen/
+.hugo_build.lock
+
+# OS and editor files
+.DS_Store
+*.swp
+*~

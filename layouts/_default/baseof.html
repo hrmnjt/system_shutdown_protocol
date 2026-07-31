@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="{{ site.Language.LanguageCode | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="{{ .Description | default site.Params.description }}">
+  <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}{{ site.Title }}</title>
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="site-title" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+      <span class="site-subtitle">{{ site.Params.description }}</span>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <nav class="site-nav" aria-label="Protocol sections">
+      <details open>
+        <summary>Contents</summary>
+        <ol>
+          <li><a href="{{ "/" | relURL }}"{{ if .IsHome }} aria-current="page"{{ end }}>Start here</a></li>
+          {{ range site.RegularPages.ByWeight }}
+            <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+          {{ end }}
+        </ol>
+      </details>
+      <p class="review-date"><strong>Last reviewed</strong><br>{{ site.Params.lastReviewed }}</p>
+    </nav>
+
+    <main id="main-content" class="content">
+      {{ block "main" . }}{{ end }}
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Keep this guide with the documents and secure access methods it references.</p>
+  </footer>
+</body>
+</html>

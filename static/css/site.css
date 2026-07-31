@@ -1,0 +1,272 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f5f0;
+  --surface: #fffdf8;
+  --text: #232522;
+  --muted: #62665f;
+  --border: #d8d5cc;
+  --accent: #245b45;
+  --accent-soft: #e4efe8;
+  --important: #8b3d2e;
+  --important-soft: #f8e9e5;
+  --focus: #2563eb;
+  --max-width: 72rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a { color: var(--accent); }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, summary:focus-visible, button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 10;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--text);
+  color: var(--surface);
+  transform: translateY(-150%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.header-inner {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+
+.site-title {
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.site-subtitle { color: var(--muted); }
+
+.page-shell {
+  display: grid;
+  grid-template-columns: minmax(13rem, 17rem) minmax(0, 1fr);
+  gap: 3rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.site-nav {
+  align-self: start;
+  position: sticky;
+  top: 1rem;
+  font-size: 0.9rem;
+}
+
+.site-nav summary {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.site-nav ol {
+  margin: 0.75rem 0 1.5rem;
+  padding-left: 1.4rem;
+}
+
+.site-nav li { margin: 0.35rem 0; }
+.site-nav a { color: var(--text); }
+.site-nav a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 750;
+  text-decoration-thickness: 2px;
+}
+
+.review-date {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.content { min-width: 0; max-width: 48rem; }
+
+.page-header { margin-bottom: 2rem; }
+.page-header h1 {
+  max-width: 18ch;
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.eyebrow {
+  margin: 0 0 0.3rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lead {
+  max-width: 55ch;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1.2rem;
+}
+
+.notice {
+  margin: 0 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-left-width: 0.35rem;
+  border-radius: 0.35rem;
+  background: var(--surface);
+}
+.notice-important {
+  border-color: var(--important);
+  background: var(--important-soft);
+}
+
+.prose { max-width: 68ch; }
+.prose h2 {
+  margin: 2.6rem 0 0.75rem;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+.prose h3 { margin: 2rem 0 0.5rem; line-height: 1.25; }
+.prose p, .prose ul, .prose ol { margin-top: 0.75rem; }
+.prose li { margin: 0.35rem 0; }
+.prose blockquote {
+  margin: 1.5rem 0;
+  padding: 0.1rem 1rem;
+  border-left: 0.3rem solid var(--accent);
+  background: var(--accent-soft);
+}
+.prose code {
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.2rem;
+  background: var(--accent-soft);
+  font-size: 0.9em;
+}
+.prose table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.prose th, .prose td {
+  min-width: 8rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+.prose th { background: var(--accent-soft); }
+.prose input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.35rem;
+  accent-color: var(--accent);
+}
+.prose hr { margin: 2.5rem 0; border: 0; border-top: 1px solid var(--border); }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-height: 9rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.card:hover { border-color: var(--accent); }
+.card-number { color: var(--accent); font-size: 0.75rem; font-weight: 800; }
+.card span:last-child { color: var(--muted); font-size: 0.9rem; }
+
+.page-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.page-navigation .next { margin-left: auto; text-align: right; }
+
+.site-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 760px) {
+  :root { font-size: 17px; }
+  .header-inner { display: block; }
+  .site-subtitle { display: block; margin-top: 0.2rem; }
+  .page-shell { display: block; padding-top: 1.25rem; }
+  .site-nav { position: static; margin-bottom: 2.5rem; }
+  .site-nav details:not([open]) { padding-bottom: 0.5rem; }
+  .review-date { display: none; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171a18;
+    --surface: #202421;
+    --text: #edf0eb;
+    --muted: #b6bcb4;
+    --border: #414740;
+    --accent: #91d5b0;
+    --accent-soft: #253c30;
+    --important: #e59684;
+    --important-soft: #422b27;
+  }
+}
+
+@media print {
+  :root { color-scheme: light; font-size: 11pt; }
+  body { background: white; color: black; }
+  .skip-link, .site-header, .site-nav, .page-navigation, .site-footer { display: none; }
+  .page-shell { display: block; max-width: none; padding: 0; }
+  .content, .prose { max-width: none; }
+  a { color: black; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; }
+  h1, h2, h3 { break-after: avoid; }
+  li, blockquote, .notice { break-inside: avoid; }
+}

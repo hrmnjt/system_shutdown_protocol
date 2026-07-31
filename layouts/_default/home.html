@@ -1,0 +1,31 @@
+{{ define "main" }}
+  <article>
+    <header class="page-header home-header">
+      <p class="eyebrow">Family guide</p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+    </header>
+
+    <div class="notice notice-important" role="note">
+      <strong>If you have just opened this after my death:</strong>
+      begin with the immediate steps below. You do not need to understand or finish everything today.
+    </div>
+
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    <section aria-labelledby="sections-heading">
+      <h2 id="sections-heading">Guide sections</h2>
+      <div class="card-grid">
+        {{ range site.RegularPages.ByWeight }}
+          <a class="card" href="{{ .RelPermalink }}">
+            <span class="card-number" aria-hidden="true">{{ printf "%02d" .Weight }}</span>
+            <strong>{{ .LinkTitle }}</strong>
+            {{ with .Description }}<span>{{ . }}</span>{{ end }}
+          </a>
+        {{ end }}
+      </div>
+    </section>
+  </article>
+{{ end }}

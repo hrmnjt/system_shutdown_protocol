@@ -1,0 +1,18 @@
+baseURL = "https://example.invalid/"
+languageCode = "en"
+title = "System Shutdown Protocol"
+publishDir = "dist"
+
+# The built site is intended to work when dist/index.html is opened directly.
+relativeURLs = true
+uglyURLs = true
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
+
+[params]
+  description = "A practical guide for my family"
+  lastReviewed = "Not yet reviewed"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = false

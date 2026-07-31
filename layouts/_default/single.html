@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <article>
+    <header class="page-header">
+      <p class="eyebrow">Step {{ printf "%02d" .Weight }}</p>
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+    </header>
+
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    <nav class="page-navigation" aria-label="Previous and next sections">
+      {{ with .NextInSection }}<a href="{{ .RelPermalink }}">← {{ .LinkTitle }}</a>{{ end }}
+      {{ with .PrevInSection }}<a class="next" href="{{ .RelPermalink }}">{{ .LinkTitle }} →</a>{{ end }}
+    </nav>
+  </article>
+{{ end }}
